@@ -99,6 +99,11 @@ section {
     padding: 15px;
 }
 
+.active-link {
+    color: var(--accent-color-1);
+    text-decoration: underline;
+}
+
 @media (max-width: 1080px) {
     menu {
         width: 100%;
