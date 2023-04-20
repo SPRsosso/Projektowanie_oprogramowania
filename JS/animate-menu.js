@@ -15,27 +15,29 @@ addEventListener("resize", (e) => {
 })
 
 addEventListener("scroll", (e) => {
+    let time = 500;
+
     if (innerWidth < 1080) {
         if (menu.getBoundingClientRect().top <= 0) {
             setTimeout(() => {
                 menu.style.height = "100px";
-            }, 300);
+            }, time);
         } else {
             setTimeout(() => {
                 menu.style.height = "150px";
-            }, 300);
+            }, time);
         }
     } else {
         if (menu.getBoundingClientRect().top <= 0) {
             setTimeout(() => {
                 nav.style.top = "50%";
                 nav.style.transform = "translateY(-50%)";
-            }, 300);
+            }, time);
         } else {
             setTimeout(() => {
                 nav.style.top = "0";
                 nav.style.transform = "translateY(0)";
-            }, 300);
+            }, time);
         }
     }
 })
