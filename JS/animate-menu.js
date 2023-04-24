@@ -41,3 +41,8 @@ addEventListener("scroll", (e) => {
         }
     }
 })
+
+addEventListener("DOMContentLoaded", (e) => {
+    nav.style.top = "0";
+    nav.style.transform = "translateY(0)";
+})
