@@ -1,8 +1,9 @@
 let menu = document.querySelector("menu");
 let nav = document.querySelector("nav ul");
+let screenWidth = 920;
 
 addEventListener("resize", (e) => {
-    if (innerWidth < 1080) {
+    if (innerWidth <= screenWidth) {
         menu.style.width = "100%";
         if (menu.getBoundingClientRect().top <= 0)
             menu.style.height = "100px";
@@ -17,7 +18,7 @@ addEventListener("resize", (e) => {
 addEventListener("scroll", (e) => {
     let time = 500;
 
-    if (innerWidth < 1080) {
+    if (innerWidth <= screenWidth) {
         if (menu.getBoundingClientRect().top <= 0) {
             setTimeout(() => {
                 menu.style.height = "100px";
