@@ -17,8 +17,8 @@
     --font-color: #E6EDF3;
     --font-color-faded: #b0b4b9;
     --accent-color-1: #2E7DEE;
-    --accent-color-2: #2a943e;
-    --accent-color-hover: #2EA043;
+    --accent-color-2: #2ea744;
+    --accent-color-hover: #2cca49;
     --hover-color: #ffffff0e;
 }
 
@@ -126,7 +126,7 @@ section {
 }
 
 .active-link {
-    color: var(--accent-color-1);
+    color: var(--accent-color-2);
     text-decoration: underline;
 }
 
