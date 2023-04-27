@@ -26,7 +26,94 @@
         </menu>
         <article>
             <section>
-                
+                <h1>Czym jest wzorzec projektowy?</h1>
+                <p>
+                    <b>Wzorce projektowe</b> to typowe rozwiązania problemów często napotykanych przy projektowaniu oprogramowania. Stanowią coś na kształt gotowych planów które można dostosować, aby rozwiązać powtarzający się problem w kodzie.
+                </p>
+                <br>
+                <p>
+                    <b>Nie można jednak wybrać wzorca</b> i po prostu skopiować go do programu, jak bibliotekę czy funkcję zewnętrznego dostawcy. Wzorzec nie jest konkretnym fragmentem kodu, ale ogólną koncepcją pozwalającą rozwiązać dany problem. Postępując według wzorca możesz zaimplementować rozwiązanie które będzie pasować do realiów twojego programu.
+                </p>
+                <br>
+                <p>
+                    <b>Wzorce często myli się z algorytmami</b>, ponieważ obie koncepcje opisują typowe rozwiązanie jakiegoś znanego problemu. Algorytm jednak zawsze definiuje wyraźny zestaw czynności które prowadzą do celu, zaś wzorzec to wysokopoziomowy opis rozwiązania. Kod powstały na podstawie jednego wzorca może wyglądać zupełnie inaczej w różnych programach.
+                </p>
+                <br>
+                <p>
+                    <b>Algorytm jest jak przepis kulinarny</b>: oba mają wyraźnie określone etapy które trzeba wykonać w określonej kolejności by osiągnąć cel. Wzorzec bardziej przypomina strategię: znany jest wynik i założenia, ale dokładna kolejność implementacji należy do ciebie.
+                </p>
+            </section>
+            <section>
+                <h1>Co składa się na wzorzec?</h1>
+                <p>
+                    Większość wzorców posiada formalny opis, dzięki czemu każdy może odtworzyć ich ideę w różnych kontekstach. <b>Oto sekcje na które zwykle dzieli się opis wzorca</b>:
+                    <ul>
+                        <li><b>Cel</b> pobieżnie opisuje zarówno problem, jak i rozwiązanie</li>
+                        <li><b>Motywacja</b> rozszerza opis problemu i rozwiązania jakie umożliwia dany wzorzec</li>
+                        <li><b>Struktura</b> klas ukazuje poszczególne części wzorca i jak są ze sobą powiązane</li>
+                        <li><b>Przykład kodu</b> w którymś z popularnych języków programowania pomaga zrozumieć ideę wzorca</li>
+                    </ul>
+                    Niektóre katalogi wzorców wymieniają inne użyteczne <b>szczegóły</b>, jak typowe <b>zastosowanie wzorca</b>, <b>etapy implementacji</b> i <b>powiązania z innymi wzorcami</b>.
+                </p>
+            </section>
+            <section>
+                <h1>Dlaczego mam poznawać wzorce?</h1>
+                <p>
+                    Prawda jest taka, że da się pracować jako programista przez wiele lat bez znajomości jakiegokolwiek wzorca. Jest wiele takich osób. Nawet wtedy jednak zdarza się, że zaimplementuje się któryś ze wzorców zupełnie nieświadomie. <b>Po co więc się ich uczyć</b>?
+                    <ul>
+                        <li>Wzorce projektowe są zestawem narzędziowym składającym się z <b>wypróbowanych rozwiązań</b> typowych problemów pojawiających się podczas projektowania oprogramowania. Nawet jeśli nigdy się na te problemy nie natknęło, znajomość wzorców nadal się przydaje, bo uczy jak poradzić sobie z bardzo wieloma różnymi sytuacjami przy pomocy zasad projektowania obiektowego</li>
+                        <li>Wzorce projektowe <b>definiują wspólny język</b> za pomocą którego możesz sprawniej komunikować się ze współpracownikami. Możesz na przykład powiedzieć: “O, tu możesz użyć Singletona” i wszyscy będą wiedzieć co masz na myśli. Nie trzeba tłumaczyć całej koncepcji, jeśli wszyscy znają wzorce z nazwy</li>
+                    </ul>
+                </p>
+            </section>
+            <section>
+                <h1>Klasyfikacja wzorców</h1>
+                <p>
+                    Wzorce projektowe różnią się między sobą złożonością, poziomem szczegółowości i skalą w jakiej da się je zaimplementować w projektowanym systemie. Podoba mi się analogia do budowy dróg: można uczynić skrzyżowanie bezpieczniejszym montując tylko sygnalizację świetlną, albo tworząc wielopoziomowe rozjazdy z podziemnymi przejściami dla pieszych.
+                </p>
+                <br>
+                <p>
+                    Najbardziej podstawowe i niskopoziomowe wzorce są często nazywane <b>idiomami</b>. Zazwyczaj stanowią funkcjonalność jakiegoś języka programowania.
+                </p>
+                <br>
+                <p>
+                    Najbardziej uniwersalnymi i wysokopoziomowymi wzorcami są <b>wzorce architektoniczne</b>. Deweloperzy mogą implementować je w niemal każdym języku. W przeciwieństwie do innych wzorców, mogą służyć zaprojektowaniu architektury całej aplikacji.
+                </p>
+                <br>
+                <p>
+                    Ponadto, wszystkie wzorce można skategoryzować według ich celu, bądź przeznaczenia. <b>Trzy główne grupy wzorców to</b>:
+                    <ul>
+                        <li><b>Wzorce kreacyjne</b> wprowadzają elastyczniejsze mechanizmy tworzenia obiektów i pozwalają na ponowne wykorzystanie istniejącego kodu</li>
+                        <li><b>Wzorce strukturalne</b> wyjaśniają jak składać obiekty i klasy w większe struktury, zachowując przy tym elastyczność i efektywność struktur</li>
+                        <li><b>Wzorce behawioralne</b> które zajmują się efektywną komunikacją i podziałem obowiązków pomiędzy obiektami</li>
+                    </ul>
+                </p>
+            </section>
+            <!-- https://refactoring.guru/pl/design-patterns -->
+            <section>
+                <h1>Katalog wzorców projektowych</h1>
+                <div id="katalog">
+                    <div>
+                        <h1>Wzorce kreacyjne</h1>
+                        <p>
+                            To źródło różnych mechanizmów tworzenia obiektów, zwiększających elastyczność i ułatwiających ponowne użycie kodu.
+                        </p>
+                        <div id="wzorce-kreacyjne">
+                            <div class="card">
+                                <h1>Metoda wytwórcza</h1>
+                                <p>
+                                    Factory Method
+                                </p>
+                            </div>
+                            <div class="card">
+                                <h1>Fabryka abstrakcyjna</h1>
+                                <p>
+                                    Abstract Factory
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <section>
                 <h1>Galeria</h1>

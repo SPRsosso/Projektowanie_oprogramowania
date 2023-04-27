@@ -142,6 +142,10 @@ article ul, article ol {
     margin: 15px 0;
 }
 
+article li {
+    margin: 4px 0;
+}
+
 #galeria {
     width: 100%;
     display: flex;
@@ -192,6 +196,25 @@ small {
     width: 100%;
     background-color: var(--background-color-nav);
     margin: 10px 0;
+}
+
+#wzorce-kreacyjne {
+    margin: 10px 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.card {
+    background-color: var(--background-color-light);
+    min-height: 200px;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--font-color-faded);
+}
+
+@media (max-width: 1080px) {
+    
 }
 
 @media (max-width: 920px) {
