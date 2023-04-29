@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./CSS/style.css">
     <script defer src="./JS/animate-menu.js"></script>
     <script defer src="./JS/galeria.js"></script>
+    <script defer src="./JS/katalog.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -93,25 +94,13 @@
             <section>
                 <h1>Katalog wzorców projektowych</h1>
                 <div id="katalog">
-                    <div>
-                        <h1>Wzorce kreacyjne</h1>
-                        <p>
-                            To źródło różnych mechanizmów tworzenia obiektów, zwiększających elastyczność i ułatwiających ponowne użycie kodu.
-                        </p>
-                        <div id="wzorce-kreacyjne">
-                            <div class="card">
-                                <h1>Metoda wytwórcza</h1>
-                                <p>
-                                    Factory Method
-                                </p>
-                            </div>
-                            <div class="card">
-                                <h1>Fabryka abstrakcyjna</h1>
-                                <p>
-                                    Abstract Factory
-                                </p>
-                            </div>
-                        </div>
+                    <div id="katalog-titles">
+                        <h3 data-type="kreacyjne" onclick="changeKatalog(this)" class="zmien-katalog">Wzorce kreacyjne</h3>
+                        <h3 data-type="strukturalne" onclick="changeKatalog(this)" class="zmien-katalog">Wzorce strukturalne</h3>
+                        <h3 data-type="behawioralne" onclick="changeKatalog(this)" class="zmien-katalog">Wzorce behawioralne</h3>
+                    </div>
+                    <div id="card-holder">
+
                     </div>
                 </div>
             </section>
