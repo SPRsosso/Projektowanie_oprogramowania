@@ -3,6 +3,9 @@ function changeKatalog(obj) {
     cardHolder.innerHTML = "";
     let dataType = obj.getAttribute("data-type");
 
+    let btns = document.querySelectorAll(".zmien-katalog");
+    changeBtnColors(btns, obj);
+
     switch (dataType) {
         case "kreacyjne":
             cardHolder.innerHTML += `
@@ -49,4 +52,13 @@ function changeKatalog(obj) {
             `
             break;
     }
+}
+
+function changeBtnColors(objs, clickedObj) {
+    let classes = "zmien-katalog";
+    for (let i = 0; i < objs.length; i++) {
+        objs[i].setAttribute("class", classes);
+    }
+
+    clickedObj.setAttribute("class", classes + " active");
 }
