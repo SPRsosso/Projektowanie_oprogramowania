@@ -297,12 +297,21 @@ small {
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
     h1 {
         font-size: 24px;
     }
     
     #baner h1 {
         font-size: 24px;
+    }
+
+    #galeria #big {
+        height: 200px;
+    }
+
+    #galeria > div {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
