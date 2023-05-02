@@ -55,7 +55,6 @@ p {
 menu {
     width: 200px;
     height: 100vh;
-    top: 0;
     bottom: 100%;
     position: sticky;
     padding: 0;
