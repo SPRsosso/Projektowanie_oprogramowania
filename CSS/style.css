@@ -56,13 +56,12 @@ menu {
     width: 200px;
     height: 100vh;
     position: sticky;
-    top: 0;
+    bottom: 100%;
     padding: 0;
     background-image: linear-gradient(var(--background-color-light), var(--background-color-nav) 40%);
     transition: height 0.5s;
     border-right: 1px solid var(--accent-color-2);
     box-shadow: 20px 0 20px -20px var(--accent-color-2);
-    transform-origin: bottom;
 }
 
 nav {
