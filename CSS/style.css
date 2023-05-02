@@ -24,7 +24,7 @@
 
 body {
     background-color: var(--background-color-dark);
-    transform-origin: top;
+    transform-origin: bottom;
 }
 
 :not(h1, a) {
