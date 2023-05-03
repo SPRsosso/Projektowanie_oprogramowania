@@ -55,7 +55,7 @@ p {
 menu {
     width: 200px;
     height: 100vh;
-    bottom: 100%;
+    top: 0;
     position: sticky;
     padding: 0;
     background-image: linear-gradient(var(--background-color-light), var(--background-color-nav) 40%);
