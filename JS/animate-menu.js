@@ -1,5 +1,6 @@
 let menu = document.querySelector("menu");
 let nav = document.querySelector("nav ul");
+let toTop = document.querySelector("#to-top");
 let screenWidth = 920;
 
 addEventListener("resize", (e) => {
@@ -40,6 +41,12 @@ addEventListener("scroll", (e) => {
                 nav.style.transform = "translateY(0)";
             }, time);
         }
+    }
+
+    if (menu.getBoundingClientRect().top <= 0) {
+        toTop.style.display = "flex";
+    } else {
+        toTop.style.display = "none";
     }
 })
 

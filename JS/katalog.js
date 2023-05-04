@@ -16,7 +16,7 @@ function changeKatalog(obj) {
                     To źródło różnych mechanizmów tworzenia obiektów, zwiększających elastyczność i ułatwiających ponowne użycie kodu.
                 </p>
                 <div id="cards-kreacyjne">
-                    <div class="card">
+                    <div onclick="location.replace('./WZORCE/factory-method.html')" class="card">
                         <h1>Metoda wytwórcza</h1>
                         <p>
                             Factory Method
@@ -26,6 +26,24 @@ function changeKatalog(obj) {
                         <h1>Fabryka abstrakcyjna</h1>
                         <p>
                             Abstract Factory
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h1>Budowniczy</h1>
+                        <p>
+                            Builder
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h1>Prototyp</h1>
+                        <p>
+                            Prototype
+                        </p>
+                    </div>
+                    <div class="card">
+                        <h1>Singleton</h1>
+                        <p>
+                            Singleton
                         </p>
                     </div>
                 </div>
