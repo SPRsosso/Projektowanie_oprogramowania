@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Odwiedzający</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Odwiedzający</h1>
+                <p>
+                    <b>Znany też jako</b>: Visitor
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Odwiedzający</b> to behawioralny wzorzec projektowy pozwalający oddzielić algorytmy od obiektów na których pracują.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/visitor/visitor.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że twój zespół opracowuje aplikację korzystającą z danych geograficznych ustrukturyzowanych w jeden wielki graf. Każdy węzeł grafu odpowiada złożonemu podmiotowi jak miasto, ale również bardziej szczegółowym elementom, takim jak obiekty przemysłowe, atrakcje turystyczne, itp. Węzły są połączone ze sobą jeśli istnieje droga pomiędzy faktycznymi obiektami jakie reprezentują. Za kulisami każdy typ węzła reprezentowany jest przez osobną klasę, zaś poszczególne węzły to ich obiekty.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/visitor/problem1.png">
+                    <p>
+                        Eksportowanie grafu do XML.
+                    </p>
+                </div>
+                <p>
+                    W którymś momencie otrzymujesz zadanie implementacji eksportu grafu do formatu XML. Początkowo zadanie wydało ci się proste. Planujesz dodanie metody eksportującej do każdej klasy węzła, a następnie rekursywne wywołanie jej w każdym z węzłów. Rozwiązanie wydaje się proste i eleganckie: dzięki polimorfizmowi nie doszło do sprzęgnięcia kodu wywołującego metodę eksportującą z konkretnymi klasami węzłów.
+                </p>
+                <br>
+                <p>
+                    Niestety architekt systemu odmówił zgody na modyfikację istniejących klas węzłów. Stwierdził, że kod jest już na etapie produkcji i nie może sobie pozwolić na ryzyko związane z wprowadzeniem ewentualnego błędu wraz z twoimi zmianami.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/visitor/problem2-pl.png">
+                    <p>
+                        Do wszystkich klas węzłów trzeba było dodać metodę eksportu do XML. Z wdrażaniem zmian wiązało się ryzyko wprowadzenia błędu do aplikacji.
+                    </p>
+                </div>
+                <p>
+                    Architekt systemu miał również wątpliwości co do sensu umieszczania kodu eksportu do XML w klasach węzłów. Przecież głównym zadaniem tych klas jest działanie na danych geograficznych, a obecność kodu eksportu do XML wyglądałaby nie na miejscu.
+                </p>
+                <br>
+                <p>
+                    Istniał też jeszcze jeden powód odmowy. Było bowiem bardzo możliwe, że po implementacji tej funkcjonalności, ktoś z działu marketingu poprosiłby o dodanie możliwości eksportu do jakiegoś innego formatu, lub o inne dziwactwa. Zmusiłoby to ciebie do ponownych zmian w tych drogocennych, delikatnych klasach.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec projektowy Odwiedzający proponuje umieszczenie nowych obowiązków w osobnej klasie zwanej odwiedzającym, zamiast próbować zintegrować je z istniejącymi klasami. Pierwotny obiekt, który miał wykonywać te obowiązki, teraz jest przekazywany do jednej z metod odwiedzającego w charakterze argumentu. Daje to metodzie dostęp do wszystkich potrzebnych danych znajdujących się w obiekcie.
+                </p>
+                <br>
+                <p>
+                    Ale jak właściwie wywoływalibyśmy te metody, zwłaszcza mając do czynienia z całym grafem? Metody z zestawu mają różne sygnatury, więc nie możemy zastosować polimorfizmu. Aby wybrać taką metodę odwiedzającego, która będzie w stanie obsłużyć dany obiekt, trzeba znać jego klasę. Brzmi koszmarnie, prawda?
+                </p>
+                <br>
+                <p>
+                    Być może zastanawiasz się, dlaczego nie zastosujemy w tym miejscu przeciążania metod? Polegałoby to na nadaniu wszystkim metodom tej samej nazwy, mimo że przyjmują inne parametry. Niestety, nawet zakładając że stosowany język programowania posiada tę funkcjonalność (jak Java i C#), w niczym nam to nie pomoże. Klasa konkretnego obiektu węzła jest zawczasu nieznana, więc mechanizm przeciążania nie będzie w stanie określić właściwej metody którą trzeba wywołać. Domyślnym działaniem w takim przypadku będzie wywołanie metody która przyjmuje obiekt klasy bazowej <code>Węzeł</code>.
+                </p>
+                <br>
+                <p>
+                    Wzorzec projektowy Odwiedzający odwołuje się właśnie do takiego problemu. Stosuje technikę zwaną <b>Podwójną dyspozycją</b>, która pozwala wywołać odpowiednią metodę obiektu bez uciekania się do instrukcji warunkowych. Zamiast pozwalać klientowi wybrać odpowiednią wersję metody, można oddelegować ten wybór samym obiektom przekazywanym odwiedzającemu w charakterze argumentu. Skoro obiekty wiedzą jakiej są klasy, będą w stanie wybrać właściwą metodę odwiedzającego w naturalniejszy sposób. “Przyjmują” one odwiedzającego i informują którą jego metodę należy wywołać.
+                </p>
+                <br>
+                <p>
+                    Jeśli uda się wyekstrahować wspólny interfejs wszystkich odwiedzających, wszystkie istniejące węzły będą mogły współdziałać z dowolnym odwiedzającym jakiego dodamy do aplikacji. Jeśli będzie trzeba wprowadzić jakieś nowe czynności związane z węzłami, wystarczy zaimplementować nową klasę odwiedzającego.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/visitor/visitor-comic-1.png">
+                    <p>
+                        Dobry agent ubezpieczeniowy jest gotów zawsze zaoferować polisę odpowiednią do danej organizacji.
+                    </p>
+                </div>
+                <p>
+                    Wyobraźmy sobie doświadczonego agenta ubezpieczeniowego który chce pozyskać nowych klientów. Może odwiedzić wszystkie budynki danej dzielnicy, próbując sprzedać polisy każdemu kogo napotka. Zależnie od rodzaju organizacji znajdującej się w budynku, może zaoferować specjalistyczne polisy:
+                </p>
+                <ul>
+                    <li>Jeśli jest to obiekt mieszkalny, sprzedaje ubezpieczenie zdrowotne.</li>
+                    <li>Jeśli jest to bank, sprzedaje ubezpieczenie od kradzieży.</li>
+                    <li>Jeśli jest to kawiarnia, sprzedaje ubezpieczenie od ognia i wody.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Metoda szablonowa</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Metoda szablonowa</h1>
+                <p>
+                    <b>Znany też jako</b>: Template Method
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Metoda szablonowa</b> to behawioralny wzorzec projektowy definiujący szkielet algorytmu w klasie bazowej, ale pozwalający podklasom nadpisać pewne etapy tego algorytmu bez konieczności zmiany jego struktury.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/template-method/template-method.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że tworzysz aplikację zbierającą dane, która analizuje dokumenty w korporacji. Użytkownicy przesyłają do niej dokumenty w różnych formatach (PDF, DOC, CSV), a ta próbuje wydobyć z nich istotne dane i przedstawić je w jednym formacie.
+                </p>
+                <br>
+                <p>
+                    Pierwsza wersja aplikacji mogła współpracować tylko z plikami DOC, kolejna wersja dodała obsługę plików CSV. Miesiąc później aplikacja “umiała” już ekstrahować dane z PDF.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/template-method/problem.png">
+                    <p>
+                        Klasy eksploracji danych zawierały sporo powtarzającego się kodu.
+                    </p>
+                </div>
+                <p>
+                    W jakimś momencie zauważasz, że wszystkie trzy klasy mają sporo podobnego kodu. Fragmenty odpowiedzialne za pracę z różnymi formatami danych są bardzo odmienne, ale kod odpowiedzialny za obróbkę i analizę danych jest niemal identyczny. Świetnie byłoby się tych powtórzeń pozbyć nie naruszając przy tym struktury algorytmów, prawda?
+                </p>
+                <br>
+                <p>
+                    Istniał jeszcze jeden problem, dotyczący kodu klienckiego który korzystał z tych klas. Miał pełno instrukcji warunkowych służących wybieraniu odpowiedniego sposobu działania zależnie od klasy obiektu przetwarzającego. Jeśli wszystkie trzy klasy przetwarzające miałyby jeden wspólny interfejs lub wspólną klasę bazową, byłoby możliwe usunięcie instrukcji warunkowych w kodzie klienckim i zastosowanie polimorfizmu podczas wywoływania metod obiektu przetwarzającego.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Rozwiązanie zawarte we wzorcu Metody szablonowej zakłada rozdzielenie algorytmu na kolejne etapy, utworzenie z tych etapów metod i umieszczenie ciągu wywołań poszczególnych metod w jednej <b>metodzie szablonowej</b>. Etapy mogą być albo <code>abstrakcyjne</code>, albo posiadać jakąś domyślną implementację. Aby skorzystać z algorytmu, klient powinien dostarczyć swoją podklasę implementującą wszystkie etapy abstrakcyjne i nadpisać opcjonalne etapy jeśli jest taka potrzeba (oprócz samej metody szablonowej).
+                </p>
+                <br>
+                <p>
+                    Zobaczmy jak się to sprawdzi w naszej aplikacji do eksploracji danych. Możemy stworzyć klasę bazową dla wszystkich trzech algorytmów parsowania. Ta klasa definiuje metodę szablonową składającą się z ciągu wywołań różnych etapów przetwarzania dokumentu.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/template-method/solution-pl.png">
+                    <p>
+                        Metoda szablonowa dzieli algorytm na etapy, umożliwiając podklasom ich nadpisywanie, ale nie samą metodę szablonową.
+                    </p>
+                </div>
+                <p>
+                    Na początek możemy zadeklarować wszystkie etapy jako <code>abstrakcyjne</code>, zmuszając podklasy do ich zaimplementowania. W naszym przypadku podklasy już posiadają konieczne implementacje, więc jedyną rzeczą jaka pozostaje do zrobienia jest dostosowanie sygnatur metod tak, aby zgadzały się z metodami klasy bazowej.
+                </p>
+                <br>
+                <p>
+                    A teraz zobaczmy, co da się zrobić by zlikwidować duplikacje kodu. Kod otwierania/zamykania pliku oraz ekstrakcji/parsowania wydaje się różnić pomiędzy formatami danych, więc nie ma sensu się tymi metodami zajmować. Jednakże implementacja pozostałych etapów, jak analiza surowych danych i układania raportów, jest bardzo podobna. Można więc przenieść te fragmenty do klasy bazowej, dzięki czemu podklasy będą mogły je współdzielić.
+                </p>
+                <br>
+                <p>
+                    Jak widać, mamy dwa rodzaje etapów:
+                </p>
+                <ul>
+                    <li><b>etapy abstrakcyjne</b>, które trzeba zaimplementować w każdej podklasie</li>
+                    <li><b>etapy opcjonalne</b>, które mają już jakąś domyślną implementację, ale nadal mogą być nadpisane, jeśli zaistnieje taka potrzeba</li>
+                </ul>
+                <p>
+                    Istnieje jednak jeszcze jeden rodzaj etapów, zwane <b>hookami</b>. Hook to opcjonalny, pusty etap. Metoda szablonowa będzie działać nawet jeśli nie nadpisze się hooków. Zazwyczaj umieszcza się je przed i po istotnych etapach algorytmu, dając tym samym podklasom dogodne punkty zaczepienia, mogące służyć rozbudowie algorytmu.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/template-method/live-example.png">
+                    <p>
+                        Typowy projekt architektoniczny można nieco zmienić by zaspokoić potrzeby klienta.
+                    </p>
+                </div>
+                <p>
+                    Opisywane tu podejście można zastosować w seryjnej budowie domów. Projekt architektoniczny standardowego domu może mieć wiele punktów zaczepienia, które pozwolą potencjalnemu właścicielowi dostosować finalną budowlę do swoich potrzeb.
+                </p>
+                <br>
+                <p>
+                    Każdy etap budowy, jak kładzenie fundamentów, szkielet, wznoszenie ścian, instalację wodno-kanalizacyjna i elektryczną, itd., można nieco zmodyfikować, czyniąc dom odmiennym od reszty.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

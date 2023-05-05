@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Adapter</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Adapter</h1>
+                <p>
+                    <b>Znany też jako</b>: Opakowanie, Nakładka, Wrapper
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Adapter</b> jest strukturalnym wzorcem projektowym pozwalającym na współdziałanie ze sobą obiektów o niekompatybilnych interfejsach.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/adapter/adapter-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że tworzysz aplikację monitorującą giełdę. Pobiera ona dane rynkowe z wielu źródeł w formacie XML, a następnie wyświetla ładnie wyglądające wykresy i diagramy.
+                </p>
+                <br>
+                <p>
+                    Na jakimś etapie postanawiasz wzbogacić aplikację poprzez dodanie inteligentnej biblioteki analitycznej innego producenta. Ale jest haczyk: biblioteka ta działa wyłącznie z danymi w formacie JSON.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/adapter/problem-pl.png">
+                    <p>
+                        Nie można zastosować biblioteki analitycznej od razu, bo wymaga ona przedstawiania danych w formacie który jest niekompatybilny z twoją aplikacją.
+                    </p>
+                </div>
+                <p>
+                    Można przerobić bibliotekę tak, aby obsługiwała XML. To jednak może naruszyć działanie istniejącego kodu korzystającego z tej biblioteki. Co gorsza, możesz nie mieć dostępu do kodu źródłowego biblioteki, co czyni ten plan niewykonalnym.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Możesz stworzyć <b>adapter</b>. Jest to specjalny obiekt konwertujący interfejs jednego z obiektów w taki sposób, że drugi obiekt go rozumie.
+                </p>
+                <br>
+                <p>
+                    Adapter stanowi swego rodzaju opakowanie dla obiektu, ukrywając szczegóły konwersji jakie odbywają się za kulisami. Obiekt opakowywany może nawet nie wiedzieć o istnieniu adaptera. Można na przykład opakować obiekt korzystający z jednostek kilometr i metr w adapter konwertujący te dane na jednostki imperialne, takie jak stopy i mile.
+                </p>
+                <br>
+                <p>
+                    Adaptery mogą nie tylko konwertować dane pomiędzy formatami, ale również pozwolić na współpracę obiektów o różnych interfejsach. Działa to tak:
+                </p>
+                <ol>
+                    <li>Adapter uzyskuje interfejs kompatybilny z interfejsem jednego z obiektów.</li>
+                    <li>Za pomocą tego interfejsu, istniejący obiekt może śmiało wywoływać metody adaptera.</li>
+                    <li>Otrzymawszy wywołanie, adapter przekazuje je dalej, ale już w formacie obsługiwanym przez opakowany obiekt.</li>
+                </ol>
+                <p>
+                    Czasami jest nawet możliwe stworzenie adaptera dwukierunkowego, potrafiącego konwertować wywołania w obu kierunkach.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/adapter/solution-pl.png">
+                </div>
+                <p>
+                    Wróćmy do naszej aplikacji giełdowej. Aby rozwiązać dylemat niezgodności formatów, można stworzyć adaptery XML-do-JSON dla każdej klasy biblioteki analitycznej, która jest używana bezpośrednio przez nasz kod. Potem zaś możemy dostosować kod tak, aby komunikował się z biblioteką wyłącznie za pomocą adapterów. Gdy adapter otrzyma wywołanie, tłumaczy przychodzące dane XML na strukturę JSON i przekazuje wywołanie dalej, do odpowiedniej metody opakowywanego obiektu analitycznego.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/adapter/adapter-comic-1-pl.png">
+                    <p>
+                        Walizka przed i po zagranicznej podróży.
+                    </p>
+                </div>
+                <p>
+                    Gdy pierwszy raz podróżujesz z Polski do Wielkiej Brytanii, możesz zdziwić się próbując naładować laptop. Standardy wtyczek i gniazd są różne. Twoja wtyczka nie będzie pasować do brytyjskiego gniazdka. Problem można rozwiązać za pomocą przejściówki posiadającej gniazdo typu europejskiego oraz wtyk typu brytyjskiego.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

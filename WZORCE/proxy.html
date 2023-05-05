@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Pełnomocnik</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Pełnomocnik</h1>
+                <p>
+                    <b>Znany też jako</b>: Proxy
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Pełnomocnik</b> to strukturalny wzorzec projektowy pozwalający stworzyć obiekt zastępczy w miejsce innego obiektu. Pełnomocnik nadzoruje dostęp do pierwotnego obiektu, pozwalając na wykonanie jakiejś czynności przed lub po przekazaniu do niego żądania.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/proxy/proxy.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Po co właściwie kontrolować dostęp do obiektu? Załóżmy, że mamy duży obiekt, który zużywa dużo zasobów. Potrzebujesz go co jakiś czas, ale nie ciągle.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/proxy/problem-pl.png">
+                    <p>
+                        Zapytania bazodanowe mogą być bardzo powolne.
+                    </p>
+                </div>
+                <p>
+                    Moglibyśmy zastosować leniwą inicjalizację: tworzyć ten obiekt tylko gdy staje się faktycznie potrzebny. Wszystkie jego klienty musiałyby wykonać jakiś opóźniony kod inicjalizujący. Niestety doprowadziłoby to do powielania kodu.
+                </p>
+                <br>
+                <p>
+                    W idealnym świecie, chcielibyśmy umieścić ten kod w klasie obiektu, ale nie zawsze jest to możliwe. Klasa może być bowiem częścią zamkniętej biblioteki innego dostawcy.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec Pełnomocnik zakłada stworzenie nowej klasy pośredniczącej, o takim samym interfejsie co pierwotny obiekt udostępniający usługę. Następnie aktualizujemy nasz program tak, aby przekazywał obiekt pełnomocnika wszystkim klientom pierwotnego obiektu. Otrzymawszy żądanie od klienta, pełnomocnik tworzy prawdziwy obiekt usługi i deleguje mu całą pracę.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/proxy/solution-pl.png">
+                    <p>
+                        Pełnomocnik udaje obiekt bazodanowy. Może zająć się leniwą inicjalizacją i przechowywaniem wyników bez wiedzy klienta i samej bazy danych.
+                    </p>
+                </div>
+                <p>
+                    Ale co z tego mamy? Jeśli musisz uruchomić coś albo przed, albo po głównej logice klasy, pełnomocnik pozwala uczynić to bez modyfikowania tej klasy. Ponieważ pełnomocnik implementuje ten sam interfejs, co pierwotna klasa, może być przekazany do dowolnego klienta wymagającego prawdziwego obiektu udostępniającego usługę.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/proxy/live-example.png">
+                    <p>
+                        Płacić można zarówno kartą kredytową, jak i gotówką.
+                    </p>
+                </div>
+                <p>
+                    Karta kredytowa jest pełnomocnikiem konta bankowego, które z kolei jest pełnomocnikiem gotówki. Oba implementują taki sam interfejs: można za ich pomocą płacić. Klient jest zadowolony, gdyż nie musi nosić przy sobie gotówki. Sklepikarz również jest zadowolony, bo przychody z transakcji są elektronicznie dodawane do konta bankowego sklepu bez ryzyka zagubienia czy kradzieży utargu.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

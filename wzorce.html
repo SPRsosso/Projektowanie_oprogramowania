@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/style.css">
     <script defer src="./JS/animate-menu.js"></script>
-    <script defer src="./JS/galeria.js"></script>
     <script defer src="./JS/katalog.js"></script>
     <title>Wzorce projektowe</title>
 </head>
@@ -26,7 +25,7 @@
             </nav>
         </menu>
         <article>
-            <section>
+            <section id="czym-jest-wzorzec">
                 <h1>Czym jest wzorzec projektowy?</h1>
                 <p>
                     <b>Wzorce projektowe</b> to typowe rozwiązania problemów często napotykanych przy projektowaniu oprogramowania. Stanowią coś na kształt gotowych planów które można dostosować, aby rozwiązać powtarzający się problem w kodzie.
@@ -44,7 +43,7 @@
                     <b>Algorytm jest jak przepis kulinarny</b>: oba mają wyraźnie określone etapy które trzeba wykonać w określonej kolejności by osiągnąć cel. Wzorzec bardziej przypomina strategię: znany jest wynik i założenia, ale dokładna kolejność implementacji należy do ciebie.
                 </p>
             </section>
-            <section>
+            <section id="co-sklada-sie-na-wzorzec">
                 <h1>Co składa się na wzorzec?</h1>
                 <p>
                     Większość wzorców posiada formalny opis, dzięki czemu każdy może odtworzyć ich ideę w różnych kontekstach. <b>Oto sekcje na które zwykle dzieli się opis wzorca</b>:
@@ -57,7 +56,7 @@
                     Niektóre katalogi wzorców wymieniają inne użyteczne <b>szczegóły</b>, jak typowe <b>zastosowanie wzorca</b>, <b>etapy implementacji</b> i <b>powiązania z innymi wzorcami</b>.
                 </p>
             </section>
-            <section>
+            <section id="dlaczego-mam-poznawac-wzorce">
                 <h1>Dlaczego mam poznawać wzorce?</h1>
                 <p>
                     Prawda jest taka, że da się pracować jako programista przez wiele lat bez znajomości jakiegokolwiek wzorca. Jest wiele takich osób. Nawet wtedy jednak zdarza się, że zaimplementuje się któryś ze wzorców zupełnie nieświadomie. <b>Po co więc się ich uczyć</b>?
@@ -67,7 +66,7 @@
                     </ul>
                 </p>
             </section>
-            <section>
+            <section id="klasyfikacja-wzorcow">
                 <h1>Klasyfikacja wzorców</h1>
                 <p>
                     Wzorce projektowe różnią się między sobą złożonością, poziomem szczegółowości i skalą w jakiej da się je zaimplementować w projektowanym systemie. Podoba mi się analogia do budowy dróg: można uczynić skrzyżowanie bezpieczniejszym montując tylko sygnalizację świetlną, albo tworząc wielopoziomowe rozjazdy z podziemnymi przejściami dla pieszych.
@@ -90,8 +89,7 @@
                     </ul>
                 </p>
             </section>
-            <!-- https://refactoring.guru/pl/design-patterns -->
-            <section>
+            <section id="katalog-wzorcow">
                 <h1>Katalog wzorców projektowych</h1>
                 <div id="katalog">
                     <div id="katalog-titles">
@@ -100,18 +98,49 @@
                         <h3 data-type="behawioralne" onclick="changeKatalog(this)" class="zmien-katalog">Wzorce behawioralne</h3>
                     </div>
                     <div id="card-holder">
-
-                    </div>
-                </div>
-            </section>
-            <section>
-                <h1>Galeria</h1>
-                <div id="galeria">
-                    <img src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" id="big">
-                    <div>
-                        <img style="opacity: 1" onclick="changeImage(this)" title="Git" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png">
-                        <img onclick="changeImage(this)" title="Techniki zwinne" src="https://websensa.com/wp-content/uploads/2020/07/Za%C5%82o%C5%BCenia_Agile-1024x1024.png">
-                        <img onclick="changeImage(this)" title="Wzorce projektowe" src="https://karolhabczyk.files.wordpress.com/2016/04/simple-factory-general-diagram.png">
+                        <h1>
+                            Wzorce kreacyjne
+                        </h1>
+                        <p>
+                            To źródło różnych mechanizmów tworzenia obiektów, zwiększających elastyczność i ułatwiających ponowne użycie kodu.
+                        </p>
+                        <div id="cards">
+                            <div onclick="location.href = './WZORCE/factory-method.html'" class="card">
+                                <img src="https://refactoring.guru/images/patterns/cards/factory-method-mini.png?id=72619e9527893374b98a5913779ac167">
+                                <h1>Metoda wytwórcza</h1>
+                                <p>
+                                    Factory Method
+                                </p>
+                            </div>
+                            <div onclick="location.href = './WZORCE/abstract-factory.html'" class="card">
+                                <img src="https://refactoring.guru/images/patterns/cards/abstract-factory-mini.png?id=4c3927c446313a38ce77dfee38111e27">
+                                <h1>Fabryka abstrakcyjna</h1>
+                                <p>
+                                    Abstract Factory
+                                </p>
+                            </div>
+                            <div onclick="location.href = './WZORCE/builder.html'" class="card">
+                                <img src="https://refactoring.guru/images/patterns/cards/builder-mini.png?id=19b95fd05e6469679752c0554b116815">
+                                <h1>Budowniczy</h1>
+                                <p>
+                                    Builder
+                                </p>
+                            </div>
+                            <div onclick="location.href = './WZORCE/prototype.html'" class="card">
+                                <img src="https://refactoring.guru/images/patterns/cards/prototype-mini.png?id=bc3046bb39ff36574c08d49839fd1c8e">
+                                <h1>Prototyp</h1>
+                                <p>
+                                    Prototype
+                                </p>
+                            </div>
+                            <div onclick="location.href = './WZORCE/singleton.html'" class="card">
+                                <img src="https://refactoring.guru/images/patterns/cards/singleton-mini.png?id=914e1565dfdf15f240e766163bd303ec">
+                                <h1>Singleton</h1>
+                                <p>
+                                    Singleton
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

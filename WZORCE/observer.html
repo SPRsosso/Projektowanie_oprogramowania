@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Obserwator</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Obserwator</h1>
+                <p>
+                    <b>Znany też jako</b>: Event-Subscriber, Listener, Observer
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Obserwator</b> to czynnościowy (behawioralny) wzorzec projektowy pozwalający zdefiniować mechanizm subskrypcji w celu powiadamiania wielu obiektów o zdarzeniach dziejących się w obserwowanym obiekcie.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/observer/observer.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że masz dwa typy obiektów: <code>Klient</code> oraz <code>Sklep</code>. Klient jest zainteresowany jakąś szczególną marką produktu, na przykład nowym modelem iPhone, który ma się niedługo pojawić w sklepie.
+                </p>
+                <br>
+                <p>
+                    Klient mógłby odwiedzać sklep codziennie i sprawdzać dostępność produktu, ale dopóki produkt jest w drodze, większość tych spacerów będzie bezcelowa.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/observer/observer-comic-1-pl.png">
+                    <p>
+                        Odwiedzanie sklepu a rozsyłanie spamu.
+                    </p>
+                </div>
+                <p>
+                    Z drugiej strony, sklep mógłby rozesłać mnóstwo emaili do wszystkich klientów jak tylko pojawi się nowy produkt, ale to może zostać odebrane jako spamowanie. Zaoszczędziłoby wprawdzie niektórym klientom zbędnych podróży do sklepu, ale jednocześnie niektórzy by się zdenerwowali otrzymując nieistotną dla nich wiadomość.
+                </p>
+                <br>
+                <p>
+                    Wygląda na to, że mamy tu konflikt. Albo klient traci czas sprawdzając dostępność produktu, albo sklep ponosi koszty powiadamiając niewłaściwych klientów.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Obiekt który posiada jakiś interesujący stan nazywa się zwykle <b>podmiotem</b>, ale skoro będzie powiadamiał inne obiekty o zmianach swojego stanu, można nazwać go <b>publikującym</b>. Wszystkie pozostałe obiekty, które chcą śledzić zmiany stanu nadawcy nazywa się <b>subskrybentami</b>.
+                </p>
+                <br>
+                <p>
+                    Wzorzec Obserwator proponuje dodanie mechanizmu subskrypcji do klasy publikującego, aby pojedyncze obiekty mogły subskrybować lub przerwać subskrypcję strumienia zdarzeń publikującego. Na szczęście nie jest to tak skomplikowane jak brzmi. Tak naprawdę mechanizm ten składa się z 1) pola tablicowego służącego przechowywaniu listy odniesień do subskrybentów oraz 2) wielu metod publicznych pozwalających dodawać i usuwać wpisy tej listy.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/observer/solution1-pl.png">
+                    <p>
+                        Mechanizm subskrypcji pozwala pojedynczym obiektom subskrybować powiadomienia o zdarzeniach.
+                    </p>
+                </div>
+                <p>
+                    Za każdym razem, gdy wydarzy się coś ważnego publikującemu, może on przejrzeć swoją listę subskrybentów i wywołać odpowiednią metodę powiadamiania ich obiektów.
+                </p>
+                <br>
+                <p>
+                    Prawdziwe aplikacje mogą mieć tuziny różnych klas subskrybentów które są zainteresowane śledzeniem zdarzeń jednej klasy publikującego. Nie chcielibyśmy sprzęgać nadawcy z tymi wszystkimi klasami. Poza tym możesz nawet z góry nic o nich nie wiedzieć, jeśli klasę publikującą zamierzasz udostępnić innym ludziom.
+                </p>
+                <br>
+                <p>
+                    Dlatego właśnie ważnym jest, aby wszyscy subskrybenci implementowali ten sam interfejs i żeby publikujący komunikował się z nimi wyłącznie poprzez ten interfejs. Powinien on deklarować metodę powiadamiania wraz z zestawem parametrów za pomocą których publikujący może przekazać dodatkowe dane kontekstowe wraz z powiadomieniem.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/observer/solution2-pl.png">
+                    <p>
+                        Publikujący powiadamia subskrybentów wywołując ich odpowiednie metody powiadamiania.
+                    </p>
+                </div>
+                <p>
+                    Jeśli twoja aplikacja ma wiele różnych typów nadawców i chcesz uczynić swoich subskrybentów kompatybilnymi z każdym z typów, możesz pójść o krok dalej i zmusić publikujących do korzystania z tego samego interfejsu. Taki interfejs musiałby opisywać tylko kilka metod subskrybowania. Interfejs umożliwiłby subskrybentom obserwację stanów obiektu publikującego bez konieczności sprzęgania z ich konkretnymi klasami.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/observer/observer-comic-2-pl.png">
+                    <p>
+                        Subskrypcje czasopism i gazet.
+                    </p>
+                </div>
+                <p>
+                    Jeśli subskrybujesz czasopismo lub gazetę, nie musisz więcej chodzić do sklepu by sprawdzić czy jest już nowy numer. Zamiast tego, wydawca przysyła ci nowe egzemplarze pocztą od razu po opublikowaniu, a czasem nawet trochę wcześniej.
+                </p>
+                <br>
+                <p>
+                    Wydawca zarządza listą subskrybentów i wie które czasopisma kogo interesują. Subskrybenci mogą wypisać się z listy kiedy nie chcą już otrzymywać kolejnych edycji.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

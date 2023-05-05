@@ -19,9 +19,11 @@
     --font-color: #E6EDF3;
     --font-color-faded: #b0b4b9;
     --font-color-code: #9e9e9e;
+    --font-color-img: #555b63;
     --accent-color-1: #2E7DEE;
     --accent-color-2: #2ea744;
     --accent-color-hover: #2cca49;
+
     --hover-color: #ffffff0e;
 }
 
@@ -37,11 +39,7 @@ h1 {
     font-size: 30px;
 }
 
-h3 {
-    user-select: none;
-}
-
-h1, h2, h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -109,7 +107,6 @@ nav a {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
     transition: background-color 0.15s;
 }
 
@@ -208,11 +205,15 @@ small {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     margin: 20px 0;
 }
 
-.content-image img {
+.content-image p {
+    font-size: 15px;
+    color: var(--font-color-img);
     width: 70%;
+    text-align: center;
 }
 
 #wzorce-kreacyjne {
@@ -255,6 +256,7 @@ small {
     justify-content: center;
     flex-direction: column;
     transition: border 0.15s, background-color 0.15s;
+    user-select: none;
 }
 
 .card:hover {
@@ -280,6 +282,7 @@ small {
     background-color: var(--accent-color-2);
     border-radius: 10px;
     color: var(--background-color-dark);
+    user-select: none;
 }
 
 .zmien-katalog:hover {
@@ -290,10 +293,11 @@ small {
     grid-column-start: span 2;
 }
 
-#cards-kreacyjne {
+#cards {
     margin-top: 10px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 0.35fr);
+    justify-content: center;
 }
 
 .active {

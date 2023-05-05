@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Strategia</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Strategia</h1>
+                <p>
+                    <b>Znany też jako</b>: Strategy
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Strategia</b> to behawioralny wzorzec projektowy pozwalający zdefiniować rodzinę algorytmów, umieścić je w osobnych klasach i uczynić obiekty tych klas wymienialnymi.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/strategy/strategy.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Pewnego dnia postanawiasz stworzyć aplikację służącą nawigacji dla turystów. Aplikacja jest zbudowana w oparciu o piękną mapę ułatwiającą użytkownikom szybko zorientować się w topografii miasta.
+                </p>
+                <br>
+                <p>
+                    Jedną z funkcji, o którą użytkownicy prosili najczęściej, było automatyczne planowanie trasy przez aplikację. Po wprowadzeniu adresu, na mapie pokazałaby się najszybsza trasa do tego miejsca.
+                </p>
+                <br>
+                <p>
+                    Pierwsza wersja aplikacji potrafiła planować trasy po drogach. Osoby podróżujące autami były więc wniebowzięte. Okazało się jednak, że nie wszyscy lubią jeździć na urlop autem. Dlatego kolejna aktualizacja wprowadziła możliwość generowania szlaków pieszych. Niedługo po tym aplikacja zyskała opcję wyznaczania tras w oparciu o komunikację miejską.
+                </p>
+                <br>
+                <p>
+                    To był jednak dopiero początek. W planach pojawiło się bowiem dodanie obsługi tras dogodnych dla rowerzystów. A jeszcze później zaplanowano tworzenie tras uwzględniających wszystkie atrakcje turystyczne miasta.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/strategy/problem.png">
+                    <p>
+                        Kod nawigacji stał się zagmatwany.
+                    </p>
+                </div>
+                <p>
+                    Chociaż z perspektywy biznesowej aplikacja odniosła sukces, aspekty techniczne stały się dla ciebie zmorą. Po każdym dodaniu kolejnego algorytmu wytyczania trasy, główna klasa nawigatora dwukrotnie się powiększała. W pewnym momencie okiełznanie tej bestii stało się zbyt trudne.
+                </p>
+                <br>
+                <p>
+                    Każda zmiana któregoś z algorytmów — usunięcie usterki, czy też dostrajanie punktacji kolejnych odcinków trasy wpływało na całą klasę, zwiększając tym samym ryzyko błędu w już działającym kodzie.
+                </p>
+                <br>
+                <p>
+                    Na dodatek ucierpiała praca zespołowa. Twoi współpracownicy, zatrudnieni po udanym wprowadzeniu programu na rynek, zaczęli narzekać, że marnują zbyt wiele czasu na rozwiązywanie konfliktów scalania. Implementacja każdej nowej funkcji wymaga zmiany tej samej rozbudowanej klasy, nad którą jednocześnie pracują inni.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec Strategia proponuje ekstrakcję poszczególnych algorytmów wykonujących dane zadanie na różne sposoby i umieszczenie ich w odrębnych klasach, zwanych <b>strategiami</b>.
+                </p>
+                <br>
+                <p>
+                    Pierwotna klasa, zwana <b>kontekstem</b>, musi zawierać pole służące przechowywaniu odniesienia do którejś ze strategii. Kontekst deleguje pracę powiązanemu obiektowi typu strategia, zamiast wykonywać ją samodzielnie.
+                </p>
+                <br>
+                <p>
+                    Kontekst nie jest odpowiedzialny za wybór stosownego algorytmu dla danego zadania. To klient przekazuje żądaną strategię kontekstowi. Co więcej, kontekst nie wie zbyt wiele o strategiach. Współpracuje ze wszystkimi strategiami za pośrednictwem tego samego, ogólnego interfejsu, który eksponuje pojedynczą metodę uruchamiającą algorytm ukryty w danej strategii.
+                </p>
+                <br>
+                <p>
+                    Tym sposobem kontekst staje się niezależny od konkretnych strategii, więc można dodawać kolejne algorytmy, lub modyfikować istniejące, bez zmieniania kodu kontekstu lub kodu innych strategii.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/strategy/solution.png">
+                    <p>
+                        Strategie planowania trasy.
+                    </p>
+                </div>
+                <p>
+                    W naszej aplikacji nawigacyjnej, każdy algorytm wyznaczania trasy może zostać wyekstrahowany do swojej własnej, odrębnej klasy, posiadającej jedną metodę <code>stwórzTrasę</code>. Metoda przyjmuje informacje o punkcie początkowym i docelowym, a zwraca zestaw kluczowych etapów wyznaczonej trasy.
+                </p>
+                <br>
+                <p>
+                    Każda klasa wyznaczająca trasę może wytyczyć inną trasę w oparciu o te same argumenty, a główna klasa nawigator nie musi wiedzieć o obranym algorytmie, gdyż zajmuje się jedynie przedstawianiem trasy na mapie. Klasa posiada metodę umożliwiającą zmianę aktywnej strategii planowania trasy, dzięki czemu jej klienci, jak na przykład przyciski interfejsu użytkownika, mogą zmienić bieżący sposób wyznaczania trasy na inny.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/strategy/strategy-comic-1-pl.png">
+                    <p>
+                        Różne strategie dotarcia na lotnisko.
+                    </p>
+                </div>
+                <p>
+                    Wyobraź sobie, że musisz dotrzeć na lotnisko. Możesz złapać autobus, zamówić taksówkę lub pojechać rowerem. To są twoje strategie przejazdu. Możesz wybrać jedną z nich zależnie od czynników takich jak budżet lub ograniczenia czasowe.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

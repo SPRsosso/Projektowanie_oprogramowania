@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Pyłek</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Pyłek</h1>
+                <p>
+                    <b>Znany też jako</b>: Cache, Flyweight
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Pyłek</b> jest strukturalnym wzorcem projektowym pozwalającym zmieścić więcej obiektów w danej przestrzeni pamięci RAM poprzez współdzielenie części opisu ich stanów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/flyweight/flyweight.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Aby rozerwać się nieco po pracy, postanawiasz stworzyć prostą grę komputerową: gracze poruszają się po mapie i strzelają do siebie. Chcesz zaimplementować realistyczny system cząstek i uczynić z niego wyróżniającą się zaletę gry. Niech wielkie ilości kul, rakiet i odłamków fruwają po całej mapie, dostarczając ekscytującej rozrywki.
+                </p>
+                <br>
+                <p>
+                    Ukończywszy pracę, wykonujesz ostatni commit, kompilujesz grę i wysyłasz znajomemu na próbę. Chociaż gra chodzi płynnie na twoim komputerze, kolega nie może długo pograć. Po paru minutach gra się wiesza. Po wielogodzinnym poszukiwaniu przyczyn w dziennikach debugowych, zauważasz, że grze zabrakło pamięci RAM. Okazało się bowiem, że komputer kolegi jest słabszy niż twój i dlatego problem objawił się u niego tak szybko.
+                </p>
+                <br>
+                <p>
+                    Źródłem problemu był system cząstek. Każda cząstka, jak kula, rakieta czy odłamek, reprezentowany był jako osobny obiekt zawierający mnóstwo danych. W którymś momencie, w czasie renderowania strzelaniny, nowo utworzone cząstki nie mieściły się w pamięci operacyjnej i gra kończyła działanie.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/flyweight/problem-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Przy dokładniejszej inspekcji klasy <code>Cząstka</code> zauważamy, że kolor i sprite każdej cząstki zużywają znacznie więcej pamięci, niż inne pola obiektu. Co gorsza, te dwa pola przechowują niemal identyczne dane we wszystkich cząstkach. Na przykład — wszystkie kule mają tę samą barwę i sprite.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/flyweight/solution1-pl.png">
+                </div>
+                <p>
+                    Inne elementy opisujące stan cząstki, jak współrzędne, wektor ruchu i prędkość są unikalne dla każdej z nich. Bo przecież te wartości ulegają ciągłej zmianie. Dane te reprezentują wciąż zmieniający się kontekst, w jakim cząstka się znajduje, zaś kolor i sprite pozostają jednakowe dla każdej z nich.
+                </p>
+                <br>
+                <p>
+                    Dane niezmienne, opisujące obiekt, nazywa się stanem <b>wewnętrznym</b>. Opisany jest on w każdym z obiektów, zaś inne obiekty mają do niego tylko prawo odczytu. Reszta stanu obiektu, często zmienianym “z zewnątrz” przez inne obiekty, zwana jest stanem <b>zewnętrznym</b>.
+                </p>
+                <br>
+                <p>
+                    Wzorzec Pyłek proponuje rezygnację z przechowywania stanu zewnętrznego w obiekcie. Zamiast tego należy przekazywać ten stan konkretnym metodom które go potrzebują. Tylko stan wewnętrzny powinien pozostać zapisany w obrębie obiektu, pozwalając na użycie go ponownie w innych kontekstach. Dzięki temu potrzebujemy mniej tych obiektów, ponieważ różnią się tylko pod względem wewnętrznego stanu, którego możliwych kombinacji jest znacznie mniej.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/flyweight/solution3-pl.png">
+                </div>
+                <p>
+                    Wróćmy do naszej gry. Zakładając, że wyekstrahowaliśmy stan zewnętrzny z naszej klasy-cząstki, wystarczą zaledwie 3 obiekty, aby reprezentować wszystkie cząstki w grze: kulę, rakietę i odłamek. Jak zapewne już się domyślasz, obiekt przechowujący tylko stan wewnętrzny nazywa się Pyłkiem.
+                </p>
+            </section>
+            <section>
+                <h2>Przechowywanie danych zewnętrznych</h2>
+                <br>
+                <p>
+                    Dokąd przenieść zewnętrzny stan? Jakaś klasa powinna go przechowywać, prawda? W większości przypadków, przenosi się go do obiektu kontenerowego, który agreguje obiekty zanim zastosujemy wzorzec.
+                </p>
+                <br>
+                <p>
+                    W naszym przypadku to główny obiekt <b>Gra</b> przechowuje wszystkie cząstki w polu <b>cząstki</b>. By przenieść zewnętrzne stany do tej klasy, musisz stworzyć wiele pól tablicowych do przechowywania współrzędnych, wektorów i prędkości każdej cząstki. Ale to nie wszystko — potrzebujesz jeszcze jednej tablicy w celu przechowania referencji do konkretnego pyłku reprezentującego cząstkę. Te dwie tablice muszą być zsynchronizowane, aby można było pobrać wszystkie dane cząstki stosując ten sam indeks.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/flyweight/solution2-pl.png0">
+                </div>
+                <p>
+                    Bardziej eleganckim rozwiązaniem jest utworzenie osobnej klasy kontekstowej która przechowa zewnętrzny stan wraz z odniesieniem do obiektu pyłek. W takiej sytuacji potrzebna jest tylko jedna tablica w klasie kontenerowej.
+                </p>
+                <br>
+                <p>
+                    Ale chwileczkę! Czy czasem nie będzie nam potrzebne tyle takich obiektów kontekstowych, ile mieliśmy na samym początku? W zasadzie tak, ale te obiekty są dużo mniejsze niż wcześniej. Pola zajmujące najwięcej pamięci przeniesiono do kilku obiektów pyłków. Teraz tysiąc małych obiektów kontekstowych może wykorzystać ponownie pojedynczy, duży obiekt pyłek, zamiast przechowywać tysiąc kopii ich danych.
+                </p>
+            </section>
+            <section>
+                <h2>Pyłek a niezmienność</h2>
+                <br>
+                <p>
+                    Skoro ten sam obiekt pyłek może być wykorzystany w różnych kontekstach, musisz się upewnić, że jego stan nie może być zmieniony. Pyłek powinien inicjalizować swój stan tylko jednorazowo, za pośrednictwem parametrów konstruktora. Nie powinien eksponować innym obiektom żadnych setterów ani pól publicznych.
+                </p>
+            </section>
+            <section>
+                <h2>Fabryka pyłków</h2>
+                <br>
+                <p>
+                    Stworzenie metody wytwórczej zarządzającej pulą istniejących obiektów pyłków daje nam wygodniejszy dostęp do różnych cząstek. Metoda przyjmuje pożądany przez klienta opis stanu wewnętrznego, poszukuje istniejącego obiektu o takim stanie i go zwraca. Jeśli go nie znajdzie — tworzy nowy i dodaje go do puli.
+                </p>
+                <br>
+                <p>
+                    Istnieje wiele miejsc, gdzie można umieścić taką metodę. Najbardziej oczywistym jest kontener pyłków. Innym sposobem jest stworzenie nowej klasy fabrycznej. Można też uczynić metodę wytwórczą statyczną i umieścić ją w faktycznej klasie pyłek.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

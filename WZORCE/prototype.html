@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Prototyp</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Prototyp</h1>
+                <p>
+                    <b>Znany też jako</b>: Klon, Clone, Prototype
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Prototyp</b> to kreacyjny wzorzec projektowy, który umożliwia kopiowanie już istniejących obiektów bez tworzenia zależności pomiędzy twoim kodem, a klasami obiektów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/prototype/prototype.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Przypuśćmy, że mamy jakiś obiekt i potrzebujemy jego dokładnej kopii. Jak można tego dokonać? Na początek, trzeba stworzyć nowy obiekt tej samej klasy. Potem zaś skopiować zawartość pól oryginału do pól kopii.
+                </p>
+                <br>
+                <p>
+                    Fajnie! Ale jest i haczyk. Nie wszystkie obiekty można w ten sposób kopiować, bo nie wszystkie pola obiektu są ogólnodostępne — mogą być prywatne i tym samym niedostępne spoza samego obiektu.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/prototype/prototype-comic-1-pl.png">
+                    <p>
+                        Kopiowanie obiektu oglądając go tylko z zewnątrz <b>nie zawsze</b> jest możliwe.
+                    </p>
+                </div>
+                <p>
+                    Jest jeszcze jeden kłopot z takim bezpośrednim podejściem. Skoro musisz wiedzieć, jakiej klasy jest obiekt który chcesz skopiować, to twój kod staje się zależny od tej klasy. Jeśli to nie wygląda na kłopot, to weź pod uwagę, że czasem znamy tylko interfejs obiektu, a nie jego konkretną klasę. Przykładem tego są metody przyjmujące w charakterze parametru obiekty zgodne z jakimś wspólnym interfejsem.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec projektowy Prototyp deleguje proces klonowania samym obiektom, które mają być sklonowane. We wzorcu tym deklarowany jest wspólny interfejs dla wszystkich obiektów wspierających funkcjonalność klonowania. Interfejs taki pozwala klonować obiekty bez konieczności sprzęgania kodu z klasą obiektu. Zazwyczaj taki interfejs ogranicza się tylko do pojedynczej metody <code>klonuj</code>.
+                </p>
+                <br>
+                <p>
+                    Implementacja metody <code>klonuj</code> jest bardzo podobna w poszczególnych klasach. Metoda tworzy obiekt swojej klasy i kopiuje doń wartości jej pól. Można wówczas skopiować także pola prywatne, gdyż większość języków programowania pozwala obiektom na dostęp do prywatnych pól obiektów tej samej klasy.
+                </p>
+                <br>
+                <p>
+                    Obiekt, który posiada funkcjonalność klonowania zwany jest <b>prototypem</b>. Gdy obiekty z którymi masz do czynienia mają mnóstwo pól i setki możliwych konfiguracji, klonowanie ich może okazać się korzystną alternatywą do tworzenia podklas.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/prototype/prototype-comic-2-pl.png">
+                    <p>
+                        Prefabrykowane prototypy mogą być alternatywą do tworzenia podklas.
+                    </p>
+                </div>
+                <p>
+                    Działa to tak: tworzymy zestaw obiektów, każdy skonfigurowany na swój sposób. Jeśli potrzebujesz obiektu, który ma taką samą konfigurację jak już istniejący, klonujesz prototyp — zamiast konstruować nowy obiekt od podstaw.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <p>
+                    W prawdziwym życiu prototypy stosuje się w testach, zanim rozpoczęta zostanie seryjna produkcja wyrobu. Tu jednak prototypy nie biorą udziału w faktycznej produkcji, lecz pełnią w niej rolę pasywną.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/prototype/prototype-comic-3-pl.png">
+                    <p>
+                        Podział żywej komórki.
+                    </p>
+                </div>
+                <p>
+                    Ponieważ prototypy w przemyśle nie potrafią kopiować siebie, bliższą analogią do prawdziwego życia będzie mitotyczny podział żywej komórki (biologia, pamiętasz?). Po podziale mitotycznym powstaje para identycznych komórek. Pierwotna komórka stanowi prototyp i jednocześnie pełni aktywną rolę w duplikacji.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

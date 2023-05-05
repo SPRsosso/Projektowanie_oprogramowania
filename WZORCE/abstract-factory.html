@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Fabryka abstrakcyjna</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Fabryka abstrakcyjna</h1>
+                <p><b>Znany też jako</b>: Abstract Factory</p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Fabryka abstrakcyjna</b> jest kreacyjnym wzorcem projektowym, który pozwala tworzyć rodziny spokrewnionych ze sobą obiektów bez określania ich konkretnych klas.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/abstract-factory/abstract-factory-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że tworzysz symulator sklepu meblowego. Twój kod składa się z klas, które reprezentują:
+                </p>
+                <ol>
+                    <li>Rodzinę spokrewnionych produktów, powiedzmy: <code>Fotel</code> + <code>Sofa</code> + <code>StolikKawowy</code>.</li>
+                    <li>Różne warianty w ramach powyższej rodziny. Na przykład, produkty <code>Fotel</code> + <code>Sofa</code> są dostępne w wariantach: <code>Nowoczesny</code>, <code>Wiktoriański</code>, <code>ArtDeco</code>.</li>
+                </ol>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/abstract-factory/problem-pl.png">
+                    <p>
+                        Rodziny produktów i ich warianty.
+                    </p>
+                </div>
+                <p>
+                    Trzeba produkować poszczególne meble w taki sposób, aby do siebie pasowały. Klienci nie cierpią bowiem otrzymywać mebli w zupełnie różnych stylizacjach.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/abstract-factory/abstract-factory-comic-1-pl.png">
+                    <p>
+                        Sofa zaprojektowana w stylu nowoczesnym nie pasuje do foteli wiktoriańskich.
+                    </p>
+                </div>
+                <p>
+                    Ponadto, nie chciałbyś zmieniać istniejącego kodu tylko po to, aby dodać nowy produkt lub rodzinę produktów do programu. Producenci mebli dość często wypuszczają nowe katalogi i nie chciałbyś zmieniać głównej części kodu za każdym razem gdy tak się stanie.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Pierwszą rzeczą, jaką proponuje wzorzec projektowy Fabryka abstrakcyjna, jest wyraźne określenie interfejsów dla każdego konkretnego produktu z jakiejś rodziny (np. fotel, sofa, stolik kawowy). Następnie trzeba sprawić, aby wszystkie warianty produktów były zgodne z tymi interfejsami. Na przykład wszystkie fotele implementują interfejs <code>Fotel</code>, wszystkie stoliki kawowe implementują interfejs <code>StolikKawowy</code> i tak dalej.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/abstract-factory/solution1.png">
+                    <p>
+                        Wszystkie warianty tego samego obiektu muszą się znaleźć w jednej hierarchii klasowej.
+                    </p>
+                </div>
+                <p>
+                    Kolejnym krokiem jest deklaracja interfejsu <b>Fabryka abstrakcyjna</b>, który zawrze listę metod kreacyjnych wszystkich produktów w ramach jednej rodziny (na przykład, <code>stwórzFotel</code>, <code>stwórzSofę</code>, <code>stwórzStolikKawowy</code>). Metody te muszą zwracać wyłącznie abstrakcyjne typy produktów, reprezentowane uprzednio określonymi interfejsami: <code>Fotel</code>, <code>Sofa</code>, <code>StolikKawowy</code> i tak dalej.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/abstract-factory/solution2.png">
+                    <p>
+                        Każda konkretna fabryka odpowiada konkretnemu wariantowi produktu.
+                    </p>
+                </div>
+                <p>
+                    A co z poszczególnymi wariantami produktów? Otóż, dla każdego wariantu rodziny produktów tworzymy osobną klasę fabryczną na podstawie interfejsu <code>FabrykaAbstrakcyjna</code>. Klasa fabryczna to taka klasa, która zwraca produkty danego rodzaju. A więc, <code>FabrykaNowoczesnychMebli</code> może zwracać wyłącznie obiekty: <code>NowoczesneFotele</code>, <code>NowoczesneSofy</code> oraz <code>NowoczesneStolikiKawowe</code>.
+                </p>
+                <br>
+                <p>
+                    Kod kliencki będzie korzystał z fabryk oraz produktów za pośrednictwem ich interfejsów abstrakcyjnych. Dzięki temu będzie można zmienić typ fabryki przekazywanej kodowi klienckiemu oraz zmienić wariant produktu jaki otrzyma kod kliencki i to wszystko bez ryzyka popsucia samego kodu klienckiego.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/abstract-factory/abstract-factory-comic-2-pl.png">
+                    <p>
+                        Klienta nie powinno obchodzić to, z jaką konkretnie klasą fabryczną ma do czynienia.
+                    </p>
+                </div>
+                <p>
+                    Załóżmy, że klient potrzebuje fabrykę do stworzenia fotela. Nie powinien musieć być świadom klasy tej fabryki, ani martwić się o rodzaj fotelu z jakim przyjdzie mu działać. Czy będzie to fotel nowoczesny, czy też wiktoriański, klient powinien traktować wszystkie w taki sam sposób, za pośrednictwem interfejsu abstrakcyjnego <code>Fotel</code>. Dzięki temu podejściu, klient wie tylko tyle, że fotele implementują jakąś formę metody <code>usiądźNa</code>. Ponadto, niezależnie od wariantu zwracanego fotelu, zawsze będą one pasowały do sof lub stolików kawowych jakie produkuje dany obiekt fabryczny.
+                </p>
+                <br>
+                <p>
+                    Pozostaje do wyjaśnienia jeszcze jedna sprawa: jeśli klient ma do czynienia wyłącznie z interfejsami abstrakcyjnymi, to co właściwie tworzy rzeczywiste obiekty fabryczne? Na ogół aplikacja tworzy konkretny obiekt fabryczny na etapie inicjalizacji. Tuż przed tym wybiera stosowny typ fabryki zależnie od konfiguracji lub środowiska.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

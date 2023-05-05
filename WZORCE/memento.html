@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Pamiątka</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Pamiątka</h1>
+                <p>
+                    <b>Znany też jako</b>: Snapshot, Memento
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Pamiątka</b> to behawioralny wzorzec projektowy pozwalający zapisywać i przywracać wcześniejszy stan obiektu bez ujawniania szczegółów jego implementacji.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/memento/memento-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że tworzysz edytor tekstu. Poza zwykłym edytowaniem treści, edytor może ją formatować, wstawiać obrazki, itd.
+                </p>
+                <br>
+                <p>
+                    W jakimś momencie postanawiasz pozwolić użytkownikom cofać dowolną operację wykonaną na tekście. Funkcja taka stała się przez lata popularna, a użytkownicy oczekują jej w każdej aplikacji. W celu implementacji obierasz podejście bezpośrednie. Przed wykonaniem dowolnego działania, aplikacja zapamiętuje stan wszystkich obiektów i zapisuje go w jakimś magazynie. Gdy użytkownik zechce wycofać jakąś zmianę, aplikacja pobiera ostatnią migawkę z historii i za jej pomocą przywraca wcześniejszy stan wszystkich obiektów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/memento/problem1-pl.png">
+                    <p>
+                        Przed wykonaniem działania, aplikacja zapisuje migawkę stanu obiektów. Pozwoli ona później przywrócić obiekty do ich poprzedniego stanu.
+                    </p>
+                </div>
+                <p>
+                    Pomyślmy o tych migawkach. Jak dokładnie je tworzyć? Prawdopodobnie trzeba byłoby przejrzeć wszystkie pola obiektu, skopiować ich wartości i zapisać w jakimś magazynie. Jednak to zadziałałoby tylko jeśli obiekt ma stosunkowo luźne ograniczenia dostępu do swojej zawartości. Niestety, większość prawdziwych obiektów nie pozwoli obcym tak łatwo zajrzeć w swoją zawartość i najistotniejsze dane będą ukryte w polach prywatnych.
+                </p>
+                <br>
+                <p>
+                    Na razie zignorujmy jednak ten problem i załóżmy, że nasze obiekty są niczym hipisi: wolą otwarte związki i nie ukrywają swojej natury. Chociaż podejście takie pomija powyższe ograniczenie i pozwala wykonać migawkę stanu obiektów, to tworzy przy okazji inne problemy. W przyszłości bowiem możemy zdecydować o refaktoryzacji niektórych klas edytora, lub dodać, bądź usunąć pola. Brzmi łatwo, ale wymagałoby przy okazji zmiany klas odpowiedzialnych za kopiowanie stanów zmienianych obiektów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/memento/problem2-pl.png">
+                    <p>
+                        Jak skopiować prywatną część stanu obiektu?
+                    </p>
+                </div>
+                <p>
+                    Ale jest coś jeszcze. Rozważmy samą “migawkę” stanu edytora. Jakie dane zawierałaby? W najprostszej formie: tekst, współrzędne kursora, bieżącą pozycję przewijania, itd. Aby wykonać migawkę, trzeba zebrać te wartości i umieścić je w jakimś kontenerze.
+                </p>
+                <br>
+                <p>
+                    Najprawdopodobniej będzie trzeba przechowywać mnóstwo takich obiektów kontenerowych w formie listy reprezentującej historię. Dlatego też kontenery zapewne byłyby obiektami jednej klasy. Klasa ta nie miałaby prawie żadnej metody, ale za to wiele pól, odzwierciedlających stan edytora. Aby pozwolić innym obiektom zapisywać i odczytywać dane migawki, trzeba by uczynić jej pola publicznymi. Ale to ujawniłoby wszystkie stany edytora, także te prywatne. Inne klasy stałyby się zależne od najdrobniejszej zmiany klasy migawki, które w przeciwnym wypadku działyby się w obrębie jej prywatnych pól i metod bez wpływu na zewnętrzne klasy.
+                </p>
+                <br>
+                <p>
+                    Wygląda na to, że trafiliśmy w ślepą uliczkę: można albo eksponować wszystkie wewnętrzne szczegóły klas, czyniąc je delikatnymi, albo ograniczyć dostęp do ich stanu, uniemożliwiając tym samym wykonywanie migawek. Czy jest jakiś inny sposób na implementację "cofnij"?
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wszystkie problemy na jakie się natknęliśmy są spowodowane niewłaściwą hermetyzacją. Niektóre obiekty próbują robić więcej niż powinny. Aby zbierać dane w celu wykonania jakiegoś zadania, wkradają się w prywatną przestrzeń innych obiektów, zamiast pozwolić im na samodzielne wykonanie tego zadania.
+                </p>
+                <br>
+                <p>
+                    Wzorzec Pamiątka deleguje tworzenie migawki stanu samemu właścicielowi stanu — obiektowi <b>źródło</b>. Dlatego też, zamiast pozwalać innym obiektom próbować skopiować stan edytora “z zewnątrz”, sama klasa edytora może wykonać migawkę siebie, gdyż ma pełny dostęp do swojego stanu.
+                </p>
+                <br>
+                <p>
+                    Wzorzec proponuje przechowywanie kopii stanu w specjalnym obiekcie zwanym pamiątką. Zawartość pamiątki nie jest dostępna innym obiektom, oprócz jej twórcy. Inne obiekty muszą komunikować się z pamiątką za pośrednictwem ograniczonego interfejsu, który pozwala na pobieranie metadanych migawki (czas utworzenia, nazwa wykonanej operacji, itd.), ale nie stanu pierwotnego obiektu zawartego w migawce.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/memento/solution-pl.png">
+                    <p>
+                        Źródło ma pełen dostęp do pamiątki, zaś zarządca tylko do jej metadanych.
+                    </p>
+                </div>
+                <p>
+                    Tak restrykcyjna polityka pozwala przechowywać pamiątki w obrębie innych obiektów, zwykle zwanych zarządcami. Skoro zarządca współpracuje z pamiątką tylko za pośrednictwem ograniczonego interfejsu, to nie jest w stanie naruszyć stanu w niej przechowywanego. Ponadto, źródło ma pełen dostęp do wszystkich pól pamiątki, co pozwala na przywracanie poprzednich stanów wedle potrzeb.
+                </p>
+                <br>
+                <p>
+                    W naszym przykładzie edytora tekstowego możemy stworzyć osobną klasę historii która przyjmie rolę zarządcy. Stos pamiątek przechowany w zarządcy powiększy się przed każdą operacją edytora. Można nawet przedstawić reprezentację tego stosu w graficznym interfejsie użytkownika aplikacji, wyświetlając historię wcześniej wykonanych operacji.
+                </p>
+                <br>
+                <p>
+                    Gdy użytkownik wywoła wycofanie operacji, historia pobierze najnowszą pamiątkę ze stosu i przekaże ją edytorowi z żądaniem cofnięcia. Edytor ma pełny dostęp do pamiątki, więc zmieni swój stan w oparciu o wartości w niej zawarte.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

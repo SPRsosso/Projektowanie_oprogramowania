@@ -48,6 +48,9 @@
                     Po jakimś czasie twoja aplikacja staje się całkiem popularna. Codziennie otrzymujesz tuzin próśb od firm realizujących spedycję morską, abyś dodał stosowną funkcjonalność do swej aplikacji.
                     <div class="content-image">
                         <img src="https://refactoring.guru/images/patterns/diagrams/factory-method/problem1-pl.png?id=b90846eb202a1e9820c8f81b9b73ae4c">
+                        <p>
+                            Dodanie nowej klasy do programu nie jest takie proste, jeśli reszta kodu jest już związana z istniejącymi klasami.
+                        </p>
                     </div>
                 </p>
                 <p>
@@ -63,6 +66,9 @@
                     Wzorzec projektowy Metody wytwórczej proponuje zamianę bezpośrednich wywołań konstruktorów obiektów (wykorzystujących operator <code>new</code>) na wywołania specjalnej metody wytwórczej. Jednak nie przejmuj się tym: obiekty nadal powstają za pośrednictwem operatora <code>new</code>, ale teraz dokonuje się to za kulisami — z wnętrza metody wytwórczej. Obiekty zwracane przez metodę wytwórczą często są nazywane <b>produktami</b>.
                     <div class="content-image">
                         <img src="https://refactoring.guru/images/patterns/diagrams/factory-method/solution1.png?id=fc756d2af296b5b4d482e548214d08ef">
+                        <p>
+                            Podklasy mogą zmieniać klasę obiektów zwracanych przez metodę wytwórczą.
+                        </p>
                     </div>
                 </p>
                 <p>
@@ -73,12 +79,18 @@
                     Istnieje jednak małe ograniczenie: podklasy mogą zwracać różne typy produktów tylko wtedy, gdy produkty te mają wspólną klasę bazową lub wspólny interfejs. Ponadto, zwracany typ metody wytwórczej w klasie bazowej powinien być zgodny z tym interfejsem.
                     <div class="content-image">
                         <img src="https://refactoring.guru/images/patterns/diagrams/factory-method/solution2-pl.png?id=2ea672b238353e97025c33b4beab6336">
+                        <p>
+                            Wszystkie produkty muszą być zgodne z tym samym interfejsem.
+                        </p>
                     </div>
                 </p>
                 <p>
                     Na przykład zarówno klasy <code>Ciężarówka</code>, jak i <code>Statek</code> powinny implementować interfejs <code>Transport</code>, który z kolei deklaruje metodę dostarczaj. Każda klasa różnie implementuje tę metodę: ciężarówki dostarczają towar drogą lądową, statki drogą morską. Metoda wytwórcza znajdująca się w klasie <code>LogistykaDrogowa</code> zwraca obiekty <code>Ciężarówka</code>, zaś metoda wytwórcza w klasie <code>LogistykaMorska</code> zwraca <code>Statki</code>.
                     <div class="content-image">
                         <img src="https://refactoring.guru/images/patterns/diagrams/factory-method/solution3-pl.png?id=d2585c4ef386e567a2d5f282423babfc">
+                        <p>
+                            O ile wszystkie klasy produktów implementują wspólny interfejs, możesz przekazywać ich obiekty do kodu klienckiego bez obawy o jego zepsucie.
+                        </p>
                     </div>
                 </p>
                 <p>
@@ -91,7 +103,7 @@
         <p>Projektant: Cyprian Moczała</p>
     </footer>
     <a id="to-top" href="#baner">
-        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
             <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
         </svg>
     </a>

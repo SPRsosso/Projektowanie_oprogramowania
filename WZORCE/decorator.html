@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Dekorator</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Dekorator</h1>
+                <p>
+                    <b>Znany też jako</b>: Nakładka, Wrapper, Decorator
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Dekorator</b> to strukturalny wzorzec projektowy pozwalający dodawać nowe obowiązki obiektom poprzez umieszczanie tych obiektów w specjalnych obiektach opakowujących, które zawierają odpowiednie zachowania.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/decorator/decorator.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że pracujesz nad biblioteką powiadamiającą, która pozwala innym programom informować użytkowników o istotnych zdarzeniach.
+                </p>
+                <br>
+                <p>
+                    Wstępna wersja biblioteki bazowała na klasie <code>Powiadamiacz</code>, która miała tylko parę pól, konstruktor oraz jedną metodę — <code>Wyślij</code>. Metoda przyjmowała wiadomość jako argument od klienta i przesyłała tę wiadomość do listy emailów, które z kolei przekazywano powiadamiaczowi przez jego konstruktor. Aplikacja innego producenta, pełniąca rolę klienta, miała za zadanie stworzyć i skonfigurować obiekt powiadamiacza jednorazowo, potem zaś korzystać z niego w razie istotnych zdarzeń.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/problem1-pl.png">
+                    <p>
+                        Program może korzystać z klasy powiadamiającej by wysyłać powiadomienia o ważnych wydarzeniach na określony zestaw adresów email.
+                    </p>
+                </div>
+                <p>
+                    W jakimś momencie zauważasz, że użytkownicy biblioteki oczekują więcej, niż tylko przysłania maila. Wielu chce otrzymywać SMS gdy zdarzy się coś bardzo ważnego. Inni z kolei chcą być powiadamiani poprzez Facebooka, a użytkownicy korporacyjni byliby zachwyceni powiadomieniami Slack.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/problem2.png">
+                    <p>
+                        Każdy rodzaj powiadomienia zaimplementowano w osobnej podklasie powiadamiacza.
+                    </p>
+                </div>
+                <p>
+                    Czy to takie trudne? Wystarczy rozszerzyć klasę <code>Powiadamiacz</code> i umieścić dodatkowe metody powiadamiania w nowych podklasach. Teraz klient powinien stworzyć instancję potrzebnej mu klasy powiadomień i może korzystać do woli.
+                </p>
+                <br>
+                <p>
+                    Wszystko w porządku do momentu, aż ktoś zada całkiem sensowne pytanie: “Czemu nie da się przesłać powiadomienia wieloma drogami naraz? Przecież jeśli w twoim domu wybuchnie pożar, warto zastosować wszelkie możliwe opcje powiadamiania”.
+                </p>
+                <br>
+                <p>
+                    Próbujesz więc spełnić to wymaganie tworząc specjalne podklasy łączące różne metody powiadamiania w jednej klasie. Jednakże, szybko okazuje się oczywiste, że wskutek tego podejścia kod strasznie spuchł, i to nie tylko po stronie biblioteki, ale i klienta.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/problem3.png">
+                    <p>
+                        Kombinatoryczna eksplozja podklas.
+                    </p>
+                </div>
+                <p>
+                    Trzeba znaleźć jakiś inny pomysł na strukturę klas powiadomień, aby uniknąć wpisania do księgi rekordów Guinessa przy dodawaniu kolejnych możliwości powiadamiania.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Rozszerzenie klasy jest pierwszym sposobem jaki przychodzi do głowy, gdy stajemy wobec konieczności zmiany zachowania się obiektu. Jednakże dziedziczenie wiąże się z wieloma obciążeniami, o których trzeba pamiętać.
+                </p>
+                <ul>
+                    <li>Dziedziczenie jest statyczne. Nie da się zmienić zachowania istniejącego obiektu po uruchomieniu programu. Można tylko zastąpić cały obiekt innym, stworzonym z innej podklasy.</li>
+                    <li>Podklasy mogą mieć tylko jedną klasę-rodzica. W większości języków nie można odziedziczyć zachowania wielu klas jednocześnie.</li>
+                </ul>
+                <p>
+                    Jednym ze sposobów uniknięcia tych ograniczeń jest zastosowanie <b>Agregacji</b> lub <b>Kompozycji</b> zamiast <b>Dziedziczenia</b>. Obie alternatywy działają prawie tak samo: jeden z obiektów posiada odniesienie do innego i deleguje mu jakąś pracę, zaś w przypadku dziedziczenia, obiekt sam jest w stanie wykonać tę pracę, dziedzicząc zachowanie od swej nadklasy.
+                </p>
+                <br>
+                <p>
+                    Dzięki temu nowemu sposobowi można łatwo zamienić obiekt, z którym istnieje połączenie, na inny, tym samym zmieniając zachowanie kontenera w czasie działania programu. Obiekt może korzystać z zachowań różnych klas, mając odniesienia do wielu obiektów i delegując im różne rodzaje zadań. Agregacja/kompozycja jest kluczową koncepcją wielu wzorców projektowych. Nie inaczej jest z Dekoratorem. Wróćmy więc do omówienia wzorca.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/solution1-pl.png">
+                    <p>
+                        Dziedziczenie a agregacja
+                    </p>
+                </div>
+                <p>
+                    Dekorator znany jest też pod nazwą “Nakładka”. To słowo dobrze wyraża główną ideę tego wzorca. <b>Nakładka</b> jest obiektem który może być połączony z jakimś docelowym obiektem. Nakładka zawiera ten sam zestaw metod jak obiekt docelowy i deleguje mu wszelkie otrzymywane żądania. Jednak nakładka może wpłynąć na rezultat, wykonując coś albo przed, albo po przekazaniu żądania.
+                </p>
+                <br>
+                <p>
+                    Kiedy więc prosta nakładka staje się prawdziwym dekoratorem? Jak wspomniałem, nakładka implementuje ten sam interfejs co “opakowywany” obiekt. Dlatego też z punktu widzenia klienta te obiekty są identyczne. Niech pole referencyjne nakładki przyjmuje każdy obiekt zgodny z tym interfejsem, pozwoli to wówczas “przykryć” obiekt wieloma warstwami, sumując tym samym zachowania każdej z nich.
+                </p>
+                <br>
+                <p>
+                    W naszym przykładzie z powiadomieniami, zostawmy proste powiadomienie mailowe w klasie bazowej <code>Powiadamiacz</code>, ale zmieńmy inne metody powiadamiania w dekoratory.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/solution2.png">
+                    <p>
+                        Różne metody powiadamiania stały się dekoratorami.
+                    </p>
+                </div>
+                <p>
+                    Kod kliencki musiałby opakować podstawowy obiekt powiadamiacza w zestaw dekoratorów stosowny do preferencji klienta. Wynikowy obiekt będzie miał strukturę stosu.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/decorator/solution3-pl.png">
+                    <p>
+                        Aplikacje mogą tworzyć złożone konfiguracje stosów dekoratorów powiadamiaczy.
+                    </p>
+                </div>
+                <p>
+                    Ostatnim dekoratorem w stosie będzie obiekt, z którym klient faktycznie pracuje. Skoro wszystkie dekoratory implementują ten sam interfejs co powiadamiacz bazowy, reszta kodu klienta nie będzie musiała wiedzieć, czy pracuje na “czystym” obiekcie powiadamiacza, czy “udekorowanym”.
+                </p>
+                <br>
+                <p>
+                    Moglibyśmy zastosować to samo podejście wobec innych obowiązków, jak formatowanie wiadomości lub komponowanie listy odbiorców. Klient może udekorować obiekt dowolnymi dekoratorami, o ile będą one zgodne ze sobą co do interfejsu.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/decorator/decorator-comic-1.png">
+                    <p>
+                        Zyskujesz połączony efekt poszczególnych elementów ubioru.
+                    </p>
+                </div>
+                <p>
+                    Noszenie ubrań jest przykładem stosowania dekoratorów. Gdy ci zimno, zakładasz sweter. Jeśli dalej ci zimno, zakładasz jeszcze kurtkę. A jeśli do tego pada deszcz, możesz założyć płaszcz przeciwdeszczowy. Wszystkie te elementy ubioru “rozszerzają” twoje domyślne zachowanie, ale nie są częścią ciebie i możesz pozbyć się każdego z nich gdy nie jest ci akurat potrzebny.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

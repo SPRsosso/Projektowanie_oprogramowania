@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Budowniczy</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Budowniczy</h1>
+                <p>
+                    <b>Znany też jako</b>: Builder
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Budowniczy</b> jest kreacyjnym wzorcem projektowym, który daje możliwość tworzenia złożonych obiektów etapami, krok po kroku. Wzorzec ten pozwala produkować różne typy oraz reprezentacje obiektu używając tego samego kodu konstrukcyjnego.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/builder/builder-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie jakiś skomplikowany obiekt, którego inicjalizacja jest pracochłonnym, wieloetapowym procesem obejmującym wiele pól i obiektów zagnieżdżonych. Taki kod inicjalizacyjny jest często wrzucany do wielgachnego konstruktora, przyjmującego mnóstwo parametrów. Albo jeszcze gorzej: kod taki rozrzucono po całym kodzie klienckim.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/builder/problem1.png">
+                    <p>
+                        Program może stać się nadmiernie skomplikowany, jeśli każda możliwa konfiguracja oznacza dodanie nowej podklasy.
+                    </p>
+                </div>
+                <p>
+                    Na przykład pomyślmy, jak stworzyć obiekt <code>Dom</code>. Do zbudowania najprostszego domu wystarczą cztery ściany i podłoga. Do tego drzwi, parę okien i dach. Ale co, jeśli chcesz większy, jaśniejszy dom z podwórkiem i innymi dodatkami (ogrzewanie, kanalizacja, elektryczność)?
+                </p>
+                <br>
+                <p>
+                    Najprostsze rozwiązanie to rozszerzenie klasy bazowej <code>Dom</code> i stworzenie zestawu podklas, które spełniałyby każdy możliwy zestaw wymogów. Ale takie podejście doprowadzi do wielkiej liczby podklas. Dodanie kolejnego parametru, jak styl werandy, jeszcze bardziej rozbuduje tę hierarchię.
+                </p>
+                <br>
+                <p>
+                    Istnieje jednak inne rozwiązanie, które nie wiąże się z mnożeniem podklas. Można stworzyć jeden wielki konstruktor w klasie bazowej <code>Dom</code>, uwzględniający wszystkie możliwe parametry, które sterują obiektem typu dom. W ten sposób nie mnożymy liczby klas, ale tworzymy nieco inny problem.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/builder/problem2.png">
+                    <p>
+                        Konstruktor przyjmujący mnóstwo parametrów ma swoją wadę: nie wszystkie parametry będą potrzebne za każdym razem.
+                    </p>
+                </div>
+                <p>
+                    W większości przypadków parametry pozostaną nieużyte, a <b>wywołania konstruktora będą wyglądać niechlujnie</b>. Na przykład tylko niektóre domy mają basen, więc parametry dotyczące basenu w dziewięciu na dziesięć przypadków będą niepotrzebne.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec projektowy Budowniczy proponuje ekstrakcję kodu konstrukcyjnego obiektu z jego klasy i umieszczenie go w osobnych obiektach zwanych <b>budowniczymi</b>.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/builder/solution1.png">
+                    <p>
+                        Wzorzec Budowniczy pozwala konstruować złożone obiekty krok po kroku. Budowniczy ponadto nie pozwala na dostęp do nich innym obiektom, dopóki nie zostaną ukończone.
+                    </p>
+                </div>
+                <p>
+                    Ten wzorzec projektowy dzieli konstrukcję obiektu na pewne etapy (<code>budujŚciany</code>, <code>wstawDrzwi</code>, itd.). Aby powołać do życia obiekt, wykonuje się ciąg takich etapów za pośrednictwem obiektu-budowniczego. Istotne jest to, że nie musisz wywoływać wszystkich etapów. Możesz bowiem ograniczyć się tylko do tych kroków, które są niezbędne do określenia potrzebnej nam konfiguracji obiektu.
+                </p>
+                <br>
+                <p>
+                    Niektóre etapy konstrukcji mogą wymagać odmiennych implementacji, zależnie od potrzebnej w danej chwili reprezentacji produktu. Na przykład, ściany leśnej chatki mogą być drewniane, ale mury zamku warownego — kamienne.
+                </p>
+                <br>
+                <p>
+                    W takim przypadku, można utworzyć wiele różnych klas budowniczych które implementują te same etapy konstrukcji, ale w różny sposób. Można następnie korzystać z tych budowniczych podczas procesu konstrukcji (np. odpowiednia kolejność wywołań etapów budowy) aby wytworzyć różne rodzaje obiektów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/builder/builder-comic-1-pl.png">
+                    <p>
+                        Różni budowniczowie wykonują to samo zadanie w różny sposób.
+                    </p>
+                </div>
+                <p>
+                    Przykładowo, wyobraź sobie budowniczego, który konstruuje wyłącznie z drewna i szkła, drugi zaś stosuje tylko kamień i żelazo, a trzeci — złoto i diamenty. Wywołując te same etapy, uzyskasz zwykły dom autorstwa pierwszego budowniczego, drugi z nich zbuduje mały zamek, a trzeci — pałac. Jednakże, to zadziała tylko pod warunkiem, że kod kliencki, który wywołuje etapy budowy, jest w stanie komunikować się z budowniczymi za pośrednictwem wspólnego interfejsu.
+                </p>
+            </section>
+            <section>
+                <h2>Kierownik</h2>
+                <br>
+                <p>
+                    Można pójść jeszcze dalej i przenieść kolejkę bezpośrednich wywołań budowniczego do osobnej klasy, zwanej <b>kierownikiem</b>. Kierownik określa kolejność etapów jaką musi zachować budowniczy, który z kolei implementuje te etapy konstrukcji obiektu.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/builder/builder-comic-2-pl.png">
+                    <p>
+                        Kierownik wie jakie kroki należy wykonać, aby otrzymać działający produkt.
+                    </p>
+                </div>
+                <p>
+                    Posiadanie w programie klasy kierownika nie jest niezbędne. Można bowiem zawsze wywoływać etapy konstrukcji w odpowiedniej kolejności z poziomu kodu klienckiego. Jednakże, kierownik może okazać się dobrym miejscem na umieszczenie czynności konstrukcyjnych, potrzebnych w innych miejscach programu.
+                </p>
+                <br>
+                <p>
+                    Dodatkowo, klasa kierownik ukrywa szczegóły konstrukcji produktu przed kodem klienckim. Klient musi tylko skojarzyć budowniczego z kierownikiem, wywołać proces budowy za pośrednictwem tego pierwszego, a następnie odebrać wynik pracy od drugiego.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Singleton</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Singleton</h1>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Singleton</b> jest kreacyjnym wzorcem projektowym, który pozwala zapewnić istnienie wyłącznie jednej instancji danej klasy. Ponadto daje globalny punkt dostępowy do tejże instancji.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/singleton/singleton.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wzorzec Singleton rozwiązuje jednocześnie dwa problemy, ale jednocześnie łamie <b>Zasadę pojedynczej odpowiedzialności</b>:
+                </p>
+                <ol>
+                    <li>
+                        <p>
+                            <b>Zapewnia istnienie wyłącznie jednej instancji danej klasy</b>. Dlaczego w ogóle ktokolwiek musiałby liczyć obiekty danej klasy? Otóż, najczęstszym powodem jest potrzeba kontroli dostępu do jakiegoś współdzielonego zasobu — na przykład bazy danych, lub pliku.
+                        </p>
+                        <br>
+                        <p>
+                            Działa to tak: wyobraź sobie, że masz już stworzony obiekt, ale po jakimś czasie potrzebujesz kolejnego. Zamiast otrzymać nowy, dostaniesz ten uprzednio stworzony.
+                        </p>
+                        <br>
+                        <p>
+                            Zwróć uwagę, że takiego zachowania nie da się zaimplementować stosując zwykły konstruktor, ponieważ metody te z definicji <b>muszą</b> zawsze zwracać nowe obiekty.
+                        </p>
+                        <div class="content-image">
+                            <img src="https://refactoring.guru/images/patterns/content/singleton/singleton-comic-1-pl.png">
+                            <p>
+                                Klienci mogą nawet nie zauważyć, że cały czas korzystają z tego samego obiektu.
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            <b>Pozwala na dostęp do tej instancji w przestrzeni globalnej</b>. Pamiętasz te globalne zmienne, z których korzystaliśmy (no dobra, ja korzystałem) do przechowywania istotnych obiektów? Chociaż są one bardzo poręczne, to wiążą się też z poważnym ryzykiem nadpisania ich zawartości i tym samym awarii programu.
+                        </p>
+                        <br>
+                        <p>
+                            Zupełnie, jak w przypadku zmiennej globalnej, wzorzec Singleton pozwala skorzystać z jakiegoś obiektu w dowolnym miejscu programu. Jednakże, zapewnia też ochronę tego obiektu przed działaniami innego kodu.
+                        </p>
+                        <br>
+                        <p>
+                            Jest też inna strona tego problemu: nie chcemy, aby kod, który pozwala nam rozwiązać pierwszy z powyższych problemów był porozrzucany po całym programie. Dużo lepiej jest trzymać go w jednej klasie, szczególnie, jeśli reszta kodu już od niego zależy.
+                        </p>
+                    </li>
+                </ol>
+                <p>
+                    Wzorzec Singleton stał się obecnie tak popularny, że czasem nazywa się Singletonem rozwiązania odnoszące się tylko do jednego z powyższych problemów.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wszystkie implementacje wzorca Singleton współdzielą poniższe dwa etapy:
+                </p>
+                <ul>
+                    <li>
+                        Ograniczenie dostępu do domyślnego konstruktora przez uczynienie go prywatnym, aby zapobiec stosowaniu operatora <code>new</code> w stosunku do klasy Singleton.
+                    </li>
+                    <li>
+                        Utworzenie statycznej metody kreacyjnej, która będzie pełniła rolę konstruktora. Za kulisami, metoda ta wywoła prywatny konstruktor, aby utworzyć instancję obiektu i umieści go w polu statycznym klasy. Wszystkie kolejne wywołania tej metody zwrócą już istniejący obiekt.
+                    </li>
+                </ul>
+                <p>
+                    Jeżeli twój kod ma dostęp do klasy Singleton, to będzie mógł wywołać jej statyczną metodę i tym samym za każdym razem otrzyma ten sam obiekt.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <p>
+                    Rząd jest doskonałym przykładem wzorca Singleton. Kraj może mieć wyłącznie jeden oficjalny rząd. Niezależnie od składu personalnego członków rządu, pojęcie “Rząd kraju X” jest uniwersalnym odwołaniem do organu władzy kraju.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

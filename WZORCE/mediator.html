@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Mediator</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Mediator</h1>
+                <p>
+                    <b>Znany też jako</b>: Intermediary, Controller
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Mediator</b> to behawioralny wzorzec projektowy pozwalający zredukować chaos zależności pomiędzy obiektami. Wzorzec ten ogranicza bezpośrednią komunikację pomiędzy obiektami i zmusza je do współpracy wyłącznie za pośrednictwem obiektu mediatora
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/mediator/mediator.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Załóżmy, że masz okno dialogowe służące tworzeniu i edycji profili klientów. Składa się z różnych kontrolek, takich jak pola tekstowe, pola wyboru, przyciski, itd.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/mediator/problem1-pl.png">
+                    <p>
+                        Wraz z ewolucją aplikacji, powiązania między elementami interfejsu użytkownika mogą stać się coraz bardziej chaotyczne.
+                    </p>
+                </div>
+                <p>
+                    Niektóre elementy formularza mogą współdziałać z innymi. Przykładowo, zaznaczenie pola wyboru “Mam psa” spowoduje pojawienie się ukrytego wcześniej pola tekstowego do wpisywania imienia. Inny przykład to przycisk “Wyślij” który musi dokonać walidacji danych w polach zanim je zapisze.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/mediator/problem2.png">
+                    <p>
+                        Elementy mogą mieć wiele relacji z innymi. W związku z tym zmiany jednych wpłyną też na inne.
+                    </p>
+                </div>
+                <p>
+                    Implementacja tej logiki bezpośrednio w kodzie elementów formularza sprawi, że klasy elementów będzie trudno ponownie użyć w innych formularzach. Przykładowo, nie będzie można użyć klasy pola wyboru w innym formularzu, ponieważ jest sprzężony z polem tekstowym imienia psa. Można albo użyć wszystkie klasy biorące udział w renderowaniu formularza profilu, albo nie używać żadnych.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec Mediator sugeruje przerwanie bezpośredniej komunikacji między komponentami które mają być niezależne. W zamian, komponenty te muszą współpracować pośrednio, wywołując specjalny obiekt mediatora, który przekierowuje wywołania do odpowiednich komponentów. W wyniku tego komponenty zależą tylko od pojedynczej klasy mediatora, zamiast sprzężenia ze sobą nawzajem.
+                </p>
+                <br>
+                <p>
+                    W naszym przykładzie z formularzem edycji profilu, klasa okna dialogowego może pełnić rolę mediatora. Prawdopodobnie klasa ta wie już o swoich podelementach, więc nie trzeba nawet wprowadzać nowych zależności do tej klasy.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/mediator/solution1-pl.png">
+                    <p>
+                        Elementy interfejsu użytkownika powinny komunikować się pośrednio, poprzez obiekt mediator.
+                    </p>
+                </div>
+                <p>
+                    Najistotniejsza zmiana dotyczy samych elementów formularza. Rozważmy przycisk wysyłania. Wcześniej, za każdym razem gdy kliknięto przycisk, musiał on dokonać walidacji wartości we wszystkich elementach formularza. Teraz jego jedynym zadaniem jest powiadomienie okna dialogowego o kliknięciu. Otrzymawszy powiadomienie, okno dialogowe dokonuje walidacji lub przekazuje to zadanie poszczególnym elementom formularza. Tym samym, zamiast sprzężenia z wieloma elementami, przycisk zależy jedynie od klasy okna dialogowego.
+                </p>
+                <br>
+                <p>
+                    Można pójść o krok dalej i rozluźnić powiązanie jeszcze bardziej, ekstrahując wspólny interfejs dla wszystkich typów okien dialogowych. Taki interfejs deklarowałby metodę powiadamiania, za pomocą której wszystkie elementy formularza mogłyby powiadamiać okno dialogowe o zdarzeniach z nimi związanych. Dzięki temu przycisk wysyłania będzie mógł współdziałać z dowolnym oknem dialogowym implementującym ten interfejs.
+                </p>
+                <br>
+                <p>
+                    Jest to sposób w jaki wzorzec Mediator pozwala hermetyzować złożone plątaniny relacji pomiędzy obiektami w jednym obiekcie. Im mniej zależności ma klasa, tym łatwiej ją modyfikować, rozszerzać lub użyć ponownie.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/mediator/live-example.png">
+                    <p>
+                        Piloci statków powietrznych nie rozmawiają ze sobą nawzajem bezpośrednio, gdy ustalają kto następny będzie lądował. Cała komunikacja odbywa się za pośrednictwem wieży kontroli lotów.
+                    </p>
+                </div>
+                <p>
+                    Piloci statków powietrznych zbliżający się do lotniska lub je opuszczający nie rozmawiają ze sobą nawzajem, lecz za pośrednictwem kontrolera lotów, siedzącego w wieży z widokiem na lądowisko. Bez kontrolera, piloci musieliby wiedzieć o każdym samolocie lub śmigłowcu w okolicy lotniska, dyskutować na temat pierwszeństwa lądowania. Mogłoby to niekorzystnie wpłynąć na statystyki bezpieczeństwa...
+                </p>
+                <br>
+                <p>
+                    Wieża nie musi kontrolować całego lotu. Jej funkcja służy nakładaniu ograniczeń w obszarze terminala aby żaden z pilotów nie był przytłoczony dużą ilością aktorów biorących udział w funkcjonowaniu lotniska.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

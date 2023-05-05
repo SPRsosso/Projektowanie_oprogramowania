@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Kompozyt</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Kompozyt</h1>
+                <p>
+                    <b>Znany też jako</b>: Drzewo obiektów, Object Tree, Composite
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Kompozyt</b> to strukturalny wzorzec projektowy pozwalający komponować obiekty w struktury drzewiaste, a następnie traktować te struktury jakby były osobnymi obiektami.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/composite/composite.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Stosowanie wzorca Kompozyt ma sens tylko w przypadku, gdy główny model twojej aplikacji można przedstawić w formie drzewa.
+                </p>
+                <br>
+                <p>
+                    Na przykład, wyobraź sobie, że masz dwa typy obiektów: <code>Produkty</code> i <code>Opakowania</code>. <code>Opakowanie</code> może zawierać wiele <code>Produktów</code>, a także pewną liczbę mniejszych <code>Opakowań</code>. Te małe <code>Opakowania</code> także mogą przechowywać zarówno <code>Produkty</code>, jak i jeszcze mniejsze <code>Opakowania</code> i tak dalej.
+                </p>
+                <br>
+                <p>
+                    Załóżmy, że postanowisz stworzyć system zamawiania, który wykorzystuje jakieś klasy. Zamówienia mogą obejmować proste produkty nie posiadające opakowań, a także pudła wypełnione produktami i… innymi pudełkami. Jak wówczas określić całkowitą wartość pieniężną takiego zamówienia?
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/composite/problem-pl.png">
+                    <p>
+                        Zamówienie może obejmować różnorakie produkty opakowane w pudełka, które z kolei są zapakowane w większych pudełkach, i tak dalej. Cała struktura przypomina odwrócone drzewo.
+                    </p>
+                </div>
+                <p>
+                    Możesz spróbować bezpośredniego podejścia: rozpakuj wszystkie pudełka, przejrzyj ich zawartość i oblicz sumę. W prawdziwym życiu jest to wykonalne, ale w programie nie jest to niestety tak proste, jak działanie w pętli. Musisz z góry znać klasy <code>Produktów</code> i <code>Opakowań</code> jakie przeglądasz, poziom zagnieżdżenia opakowań i inne kłopotliwe szczegóły. Wszystko to sprawia, że bezpośrednie podejście byłoby problematyczne, albo wręcz niemożliwe.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec projektowy Kompozyt zakłada rozwiązanie w którym zarówno z <code>Produktami</code>, jak i <code>Opakowaniami</code> pracujemy poprzez wspólny interfejs, deklarujący metodę obliczania całej sumy.
+                </p>
+                <br>
+                <p>
+                    Jak by to działało? W przypadku produktu, metoda zwracałaby jego cenę. W przypadku pudła, przejrzałaby zawartość przedmiot po przedmiocie, pytając o cenę każdego z nich, a na końcu zwróciła całkowitą wartość opakowania. Jeśli któryś z przedmiotów w pudle okazałby się mniejszym pudełkiem, również przejrzałaby jego zawartość i tak aż do obliczenia wartości wszystkich obiektów wewnątrz. Samo opakowanie mogłoby nawet dodawać swoją wartość do ostatecznej ceny.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/composite/composite-comic-1-pl.png">
+                    <p>
+                        Wzorzec Kompozyt pozwala wykonywać działania rekursywnie — po wszystkich komponentach drzewa.
+                    </p>
+                </div>
+                <p>
+                    Największą zaletą tego podejścia jest to, że nie musimy się przejmować konkretną klasą obiektów składających się na drzewo. Nie musimy wiedzieć, czy obiekt jest prostym produktem, czy też złożonym kontenerem. Traktujemy wszystko w taki sam sposób, za pomocą takiego samego interfejsu. Gdy wywołasz metodę, same obiekty przekażą ją sobie dalej.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/composite/live-example.png">
+                    <p>
+                        Przykład struktury w wojsku.
+                    </p>
+                </div>
+                <p>
+                    Armie większości państw mają strukturę hierarchiczną. Armia składa się z wielu dywizji; dywizje dzielą się na brygady, a brygady składają się z drużyn. Rozkazy wydaje się odgórnie, po czym są one przekazywane w dół, po każdym z poziomów, aż każdy żołnierz będzie wiedział co jest do zrobienia.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

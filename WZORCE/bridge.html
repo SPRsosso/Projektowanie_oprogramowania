@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Most</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Most</h1>
+                <p>
+                    <b>Znany też jako</b>: Bridge
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Most</b> jest strukturalnym wzorcem projektowym pozwalającym na rozdzielenie dużej klasy lub zestawu spokrewnionych klas na dwie hierarchie — abstrakcję oraz implementację. Nad obiema można wówczas pracować niezależnie.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/bridge/bridge.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    <b>Abstrakcja? Implementacja?</b> — brzmi strasznie? Spokojnie, zacznijmy od prostego przykładu.
+                </p>
+                <br>
+                <p>
+                    Załóżmy, że mamy klasę <code>Figura</code> wraz z dwiema podklasami: <code>Okrąg</code> i <code>Kwadrat</code>. Chcesz rozszerzyć tę hierarchię klasową, aby zawierała kolory, więc zamierzasz stworzyć podklasy dla figur <code>Czerwonych</code> i <code>Niebieskich</code>. Jednak ponieważ już są dwie podklasy, konieczne byłoby stworzenie czterech kombinacji, między innymi <code>NiebieskiOkrąg</code> i <code>CzerwonyKwadrat</code>.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/bridge/problem-pl.png">
+                    <p>
+                        Ilość kombinacji klas wzrasta w postępie geometrycznym.
+                    </p>
+                </div>
+                <p>
+                    Dodawanie do hierarchii nowych typów figur oraz kolorów spowoduje jej wykładniczy wzrost. Przykładowo, aby dodać figurę trójkąt, musisz dodać dwie podklasy — po jednej na każdy kolor. Dodanie nowego koloru wymagałoby stworzenia trzech podklas — po jednej na każdą figurę. Im dalej, tym gorzej.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Problem ten powstaje, ponieważ próbujemy poszerzyć klasy figur w dwóch niezależnych wymiarach: kształt oraz kolor. Jest to bardzo częsty problem przy dziedziczeniu klas.
+                </p>
+                <br>
+                <p>
+                    Wzorzec Most próbuje rozwiązać ten problem poprzez przestawienie się z dziedziczenia na kompozycję obiektów. Oznacza to, że ekstrahujemy jeden z tych wymiarów i tworzymy osobną hierarchię klas, przez co pierwotne klasy będą posiadały odniesienie do obiektów z nowej hierarchii, zamiast przechowywać wszystkie swoje stany i zachowanie wewnątrz klasy.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/bridge/solution-pl.png">
+                    <p>
+                        Możesz zapobiec eksplozji hierarchii klas do wielkich rozmiarów poprzez przekształcenie jej na kilka powiązanych hierarchii.
+                    </p>
+                </div>
+                <p>
+                    Stosując to podejście, możemy zebrać kod dotyczący kolorów i umieścić go w swojej własnej klasie z dwiema podklasami: <code>Czerwony</code> i <code>Niebieski</code>. Klasa <code>Figura</code> następnie zyskuje pole przechowujące odniesienie do jednego z obiektów-kolorów. W efekcie figura geometryczna może oddelegować wszelkie działania związane z kolorami do odpowiedniego obiektu-koloru. Odniesienie to pełni rolę mostu pomiędzy klasami <code>Figura</code> a <code>Kolor</code>. Od teraz, dodawanie nowych kolorów nie będzie wymagało zmiany hierarchii figur — i odwrotnie.
+                </p>
+            </section>
+            <section>
+                <h2>Abstrakcja i implementacja</h2>
+                <br>
+                <p>
+                    Książka "Gang of Four" wprowadza terminy <b>Abstrakcji</b> i <b>Implementacji</b> jako elementy definicji mostu. Moim zdaniem, pojęcia te brzmią zbyt fachowo i tworzą wrażenie, że wzorzec ten jest przesadnie skomplikowany. Przeczytawszy nasz prosty przykład o figurach i kolorach, spróbujmy rozszyfrować znaczenie niepokojącej terminologii.
+                </p>
+                <br>
+                <p>
+                    <b>Abstrakcja</b> (zwana też interfejsem) stanowi wysokopoziomową warstwę umożliwiającą kontrolę nad czymś. Nie ma ona wykonywać konkretnych prac, ale delegować zadania do warstwy implementacyjnej (zwanej też platformą).
+                </p>
+                <br>
+                <p>
+                    Zwróć uwagę, że nie mówimy tu o znanych ci z języków programowania <b>interfejsach</b> i <b>klasach abstrakcyjnych</b> — chodzi o coś innego.
+                </p>
+                <br>
+                <p>
+                    Mówiąc o prawdziwych aplikacjach, za abstrakcję można uznać graficzny interfejs użytkownika (GUI), zaś implementację stanowi znajdujący się poniżej interfejs programowania aplikacji (API). Użytkownik za pomocą interfejsu użytkownika wydaje polecenia niższej warstwie.
+                </p>
+                <br>
+                <p>
+                    Ogólnie mówiąc, taką aplikację można rozwijać w dwóch niezależnych kierunkach:
+                </p>
+                <ul>
+                    <li>Posiadać wiele różnych interfejsów użytkownika (wersje dla zwykłych użytkowników oraz dla administratora)</li>
+                    <li>Współpracować z wieloma różnymi API (możliwość uruchomienia na systemie Windows, Linux oraz macOS)</li>
+                </ul>
+                <p>
+                    W najgorszym przypadku aplikacja będzie przypominała spaghetti, gdzie setki instrukcji warunkowych łączą różne interfejsy użytkownika z różnymi interfejsami programowania aplikacji.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/bridge/bridge-3-pl.png">
+                    <p>
+                        Dokonywanie nawet najmniejszych zmian w kodzie monolitycznym jest trudne, ponieważ konieczne jest dobre rozumienie całości. Wprowadzanie zmian w małych, dobrze określonych modułach jest znacznie prostsze.
+                    </p>
+                </div>
+                <p>
+                    Można zaprowadzić trochę ładu wśród tego chaosu ekstrahując kod związany z kombinacjami interfejs-platforma i umieszczając go w osobnych klasach. Wkrótce jednak odkryjesz, że takich klas powstanie <b>mnóstwo</b>. Hierarchia klasowa rozrośnie się wykładniczo, ponieważ dodanie obsługi nowego GUI lub wsparcia dla nowego API będzie wymagać tworzenia wciąż to nowych klas.
+                </p>
+                <br>
+                <p>
+                    Spróbujmy rozwiązać problem stosując wzorzec Most. Według jego założeń, dzielimy klasy na dwie hierarchie:
+                </p>
+                <ul>
+                    <li>Abstrakcja: warstwa graficznego interfejsu użytkownika aplikacji.</li>
+                    <li>Implementacja: interfejs programowania aplikacji systemu operacyjnego.</li>
+                </ul>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/bridge/bridge-2-pl.png">
+                    <p>
+                        Jeden ze sposobów ustrukturyzowania aplikacji wieloplatformowej.
+                    </p>
+                </div>
+                <p>
+                    Obiekt abstrakcyjny steruje wyglądem aplikacji, delegując faktyczne zadania do powiązanego z nim obiektu implementacyjnego. Różne implementacje są wymienne, o ile zachowują zgodność ze wspólnym interfejsem, umożliwiając w ten sposób stworzenie jednolitego graficznego interfejsu użytkownika i pod Windows i pod Linux.
+                </p>
+                <br>
+                <p>
+                    W rezultacie, możemy zmieniać klasy GUI bez konieczności modyfikacji klas odnoszących się do API. Co więcej, dodanie obsługi kolejnego systemu operacyjnego wymaga jedynie utworzenia podklasy w hierarchii implementacyjnej.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

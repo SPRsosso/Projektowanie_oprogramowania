@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Iterator</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Iterator</h1>
+                <p>
+                    <b>Znany też jako</b>: Kursor
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Iterator</b> to behawioralny wzorzec projektowy, pozwalający sekwencyjnie przechodzić od elementu do elementu jakiegoś zbioru bez konieczności eksponowania jego formy (lista, stos, drzewo, itp.).
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/iterator/iterator-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Kolekcje są jednym z najpopularniejszych typów danych wśród programistów, mimo że są to po prostu kontenery przechowujące grupy obiektów.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/iterator/problem1.png">
+                    <p>
+                        Różne rodzaje kolekcji.
+                    </p>
+                </div>
+                <p>
+                    Większość kolekcji przechowuje swoje elementy w prostych listach, ale niektóre są zbudowane w oparciu o stosy, drzewa, grafy i inne złożone struktury.
+                </p>
+                <br>
+                <p>
+                    Jednak niezależnie od struktury kolekcji musi ona udostępniać dostęp do swoich elementów tak, aby można było używać ich gdzie indziej w programie. Powinien istnieć jakiś sposób przejścia po każdym elemencie kolekcji bez konieczności powtórnego dostępu do jakiegoś elementu.
+                </p>
+                <br>
+                <p>
+                    Wydaje się to łatwe, jeśli mamy do czynienia z kolekcją ustrukturyzowaną w formie listy. Tworzymy pętlę przechodzącą po elementach i gotowe. Ale jak przejść sekwencyjnie, element po elemencie, przez złożoną strukturę, jak np. drzewo? Na początku być może wystarczy poruszanie się w głąb, ale kolejnego dnia pojawi się wymóg przechodzenia wszerz. Jeszcze później okazuje się, że przydałaby się możliwość losowego dostępu do dowolnego elementu drzewa.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/iterator/problem2.png">
+                    <p>
+                        Zawartość tej samej kolekcji można przejrzeć na wiele różnych sposobów.
+                    </p>
+                </div>
+                <p>
+                    Dodawanie kolejnych algorytmów przechodzenia przez kolekcję stopniowo przyćmiewa jej główne zadanie, którym jest efektywne przechowywanie danych. Ponadto niektóre algorytmy mogą być zoptymalizowane pod kątem konkretnego zastosowania, więc włączanie ich do uogólnionej klasy kolekcji byłoby dziwne.
+                </p>
+                <br>
+                <p>
+                    Z drugiej strony, kod klienta który ma za zadanie działać na różnych kolekcjach może nawet nie być zainteresowany sposobem w jaki przechowują one elementy. Jednak skoro wszystkie kolekcje udostępniają różne sposoby dostępu do swoich elementów, to nie ma innego wyjścia, niż związać swój kod z klasą konkretnej kolekcji.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Główną ideą wzorca Iterator jest ekstrakcja zadań związanych z przechodzeniem przez elementy kolekcji do osobnego obiektu zwanego <b>iteratorem</b>.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/iterator/solution1.png">
+                    <p>
+                        Iteratory implementują różne algorytmy sekwencyjnego dostępu do kolejnych elementów. Wiele obiektów iterator może przeskakiwać po elementach jednej kolekcji jednocześnie.
+                    </p>
+                </div>
+                <p>
+                    Oprócz implementowania samego algorytmu, obiekt iteratora hermetyzuje wszystkie szczegóły sposobu przechodzenia przez kolejne elementy, jak bieżąca pozycja, czy ilość pozostałych elementów. Dzięki temu wiele iteratorów może jednocześnie przeglądać tę samą kolekcję, niezależnie od siebie.
+                </p>
+                <br>
+                <p>
+                    Zazwyczaj, iteratory udostępniają jedną główną metodę pobierającą elementy kolekcji. Klient może wywoływać ją raz za razem aż przestanie ona zwracać kolejne obiekty, co oznacza osiągnięcie końca zbioru.
+                </p>
+                <br>
+                <p>
+                    Wszystkie iteratory muszą implementować ten sam interfejs. Czyni to kod klienta kompatybilnym z dowolną kolekcją czy algorytmem przechodzenia o ile istnieje odpowiedni iterator. Jeśli potrzebny jest specjalny sposób przeglądania kolekcji, można stworzyć nową klasę iteratora, bez konieczności dokonywania zmian w kolekcji lub w kodzie klienta.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/iterator/iterator-comic-1-pl.png">
+                    <p>
+                        Różne sposoby zwiedzania Rzymu.
+                    </p>
+                </div>
+                <p>
+                    Zamierzasz odwiedzić Rzym na parę dni i zwiedzić wszystkie najważniejsze miejsca i atrakcje turystyczne. Ale na miejscu łatwo zmarnować sporo czasu chodząc w kółko, nie mogąc znaleźć nawet Koloseum.
+                </p>
+                <br>
+                <p>
+                    Z drugiej strony, można kupić aplikację wirtualnego przewodnika na smartfon i nawigować z jej pomocą. Sprytne i niedrogie, a dodatkowo można zatrzymać się przy dowolnym miejscu na ile się chce.
+                </p>
+                <br>
+                <p>
+                    Trzecia alternatywa to poświęcenie części swojego wycieczkowego budżetu na wynajęcie przewodnika który zna miasto jak własną kieszeń. Przewodnik mógłby dostosować trasę wycieczki do twoich preferencji, pokazać wszystko co najciekawsze i opowiedzieć wiele ciekawych historii. Byłoby miło, ale również i drożej.
+                </p>
+                <br>
+                <p>
+                    Wszystkie te opcje — losowo obrane kierunki, smartfonowy przewodnik i wynajęty przewodnik — stanowią iteratory pozwalające na dostęp do wielkiej kolekcji widoków i atrakcji Rzymu.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

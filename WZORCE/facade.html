@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Fasada</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Fasada</h1>
+                <p>
+                    <b>Znany też jako</b>: Facade
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Fasada</b> jest strukturalnym wzorcem projektowym, który wyposaża bibliotekę, framework lub inny złożony zestaw klas w uproszczony interfejs.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/facade/facade.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że twój kod musi współdziałać z szerokim zestawem obiektów należących do jakiejś skomplikowanej biblioteki lub frameworku. Zazwyczaj należy zainicjalizować wszystkie te obiekty, śledzić zależności, wywoływać metody w odpowiedniej kolejności i tak dalej.
+                </p>
+                <br>
+                <p>
+                    W rezultacie doszłoby do ścisłego sprzęgnięcia logiki biznesowej twoich klas ze szczegółami implementacji klas innych dostawców, co utrudniłoby utrzymanie i zrozumienie kodu.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Fasada to klasa stanowiąca prosty interfejs dla złożonego podsystemu, zawierającego mnóstwo ruchomych części. Fasada może dawać ograniczoną funkcjonalność, w porównaniu z korzystaniem z elementów podsystemu bezpośrednio, ale za to eksponuje tylko te możliwości, których klient naprawdę potrzebuje.
+                </p>
+                <br>
+                <p>
+                    Stworzenie fasady jest wygodnym sposobem integracji twej aplikacji ze skomplikowaną biblioteką posiadającą wiele funkcji, gdy potrzebujesz tylko wąskiego zakresu jej funkcji.
+                </p>
+                <br>
+                <p>
+                    Na przykład, aplikacja która publikuje krótkie zabawne filmiki z kotami w mediach społecznościowych, może korzystać z profesjonalnej biblioteki konwersji wideo. Z całej biblioteki potrzebuje jednak tylko klasy z jedną metodą — <code>zakoduj(nazwa_pliku, format)</code>. Po stworzeniu takiej klasy i podłączeniu jej do biblioteki konwersji wideo otrzymamy naszą pierwszą fasadę.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/facade/live-example-pl.png">
+                    <p>
+                        Składanie zamówienia przez telefon.
+                    </p>
+                </div>
+                <p>
+                    Gdy dzwonisz do sklepu aby złożyć zamówienie, biuro jest twoją fasadą dla wszystkich usług i oddziałów tego sklepu. Pracownik sklepu, czy automat zgłoszeniowy, stanowią prosty interfejs głosowy do systemu zamawiania, płacenia i różnych usług dostawczych.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Stan</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Stan</h1>
+                <p>
+                    <b>Znany też jako</b>: State
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Stan</b> to behawioralny wzorzec projektowy pozwalający obiektowi zmienić swoje zachowanie gdy zmieni się jego stan wewnętrzny. Wygląda to tak, jakby obiekt zmienił swoją klasę.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/state/state-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wzorzec Stan jest powiązany z koncepcją <b>Automatu skończonego</b>
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/state/problem1.png">
+                    <p>
+                        Automat skończony.
+                    </p>
+                </div>
+                <p>
+                    Sednem tej koncepcji jest to, że w dowolnym momencie istnieje skończona liczba stanów w których program może się znajdować. W każdym z nich program zachowuje się różnie i może zostać przełączony z jednego stanu w drugi natychmiastowo. Możliwe stany, w jakich obiekt może się znaleźć, zależą od bieżącego stanu. Liczba reguł przełączeń, zwanych przejściami również jest skończona i są one z góry określone.
+                </p>
+                <br>
+                <p>
+                    Można też zastosować to podejście wobec obiektów. Wyobraźmy sobie klasę <code>Dokument</code>. Dokument może znajdować się w jednym z trzech stanów: <code>Szkic</code>, <code>Korekta</code> i <code>Opublikowany</code>. Metoda <code>publikuj</code> dokumentu działa nieco inaczej zależnie od jego stanu:
+                </p>
+                <ul>
+                    <li>W przypadku <code>Szkicu</code> przenosi dokument do moderacji.</li>
+                    <li>W stanie <code>Korekta</code> czyni dokument dostępnym publicznie, ale tylko jeśli bieżący użytkownik jest administratorem.</li>
+                    <li>W stanie <code>Opublikowany</code> nie robi nic.</li>
+                </ul>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/state/problem2-pl.png">
+                    <p>
+                        Możliwe stany i przejścia między stanami obiektu dokument.
+                    </p>
+                </div>
+                <p>
+                    Maszyny stanów są zwykle implementowane za pomocą wielu struktur warunkowych (<code>if</code> lub <code>switch</code>) które wybierają odpowiednie zachowanie zależnie od bieżącego stanu dokumentu. Zazwyczaj “stan” jest tylko zestawem wartości pól obiektu. Nawet jeśli nie wiesz nic o automatach skończonych, prawdopodobnie przynajmniej raz implementowałeś stan.
+                </p>
+                <br>
+                <p>
+                    Największa słabość maszyny stanów opartej na instrukcjach warunkowych ujawnia się w miarę dodawania kolejnych stanów oraz zachowań zależnych od tych stanów do klasy <code>Dokument</code>. Większość metod będzie zawierała olbrzymie instrukcje warunkowe wybierające stosowne zachowanie się metody zależnie od bieżącego stanu. Taki kod jest trudny w utrzymaniu, ponieważ każda zmiana logiki przechodzenia między stanami może wymagać zmian instrukcji warunkowych w każdej z metod.
+                </p>
+                <br>
+                <p>
+                    Problem narasta wraz z rozbudową projektu. Trudno jest przewidzieć wszystkie możliwe stany i przejścia między nimi na etapie projektowania. Dlatego też prosta maszyna stanów, zbudowana z ograniczonej liczby instrukcji warunkowych, może z czasem spuchnąć do niebotycznych rozmiarów.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Wzorzec Stan proponuje stworzenie nowych klas dla każdego z możliwych stanów obiektu oraz ekstrakcję wszystkich zachowań zależnych od stanu do tychże klas.
+                </p>
+                <br>
+                <p>
+                    Zamiast implementować wszystkie zachowania samodzielnie, pierwotny obiekt, zwany <b>kontekstem</b>, przechowuje odniesienie do jednego z obiektów-stanów który w danej chwili reprezentuje jego bieżący stan i deleguje mu zadania związane z tym stanem.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/state/solution-pl.png">
+                    <p>
+                        Dokument deleguje pracę obiektowi stanu.
+                    </p>
+                </div>
+                <p>
+                    Aby przełączyć kontekst do innego stanu, zamieniamy aktywny obiekt stanu na inny obiekt reprezentujący nowy stan. Jest to możliwe wyłącznie gdy wszystkie klasy stanu są zgodne pod względem interfejsu, zaś kontekst współpracuje z tymi obiektami tylko poprzez ów interfejs.
+                </p>
+                <br>
+                <p>
+                    Taka struktura może przypominać wzorzec <b>Strategia</b>, ale z jedną kluczową różnicą. W przypadku wzorca Stan, poszczególne stany mogą być świadome siebie nawzajem i inicjować przejścia z jednego stanu w drugi, zaś strategie prawie nigdy nie wiedzą nic o sobie.
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <p>
+                    Przyciski i przełączniki w twoim smartfonie zachowują się w różny sposób, w zależności od bieżącego stanu urządzenia:
+                </p>
+                <ul>
+                    <li>Gdy telefon jest odblokowany, wciskanie przycisków wywołuje różne funkcje.</li>
+                    <li>Gdy telefon jest zablokowany, wciskanie przycisków wyświetli ekran służący odblokowaniu.</li>
+                    <li>Gdy bateria telefonu jest na wyczerpaniu, wciśnięcie dowolnego przycisku wyświetli ekran ładowania.</li>
+                </ul>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>

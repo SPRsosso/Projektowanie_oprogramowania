@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/style.css">
+    <script defer src="../JS/animate-menu.js"></script>
+    <title>Polecenie</title>
+</head>
+<body>
+    <div id="baner">
+        <h1>Projektowanie oprogramowania</h1>
+    </div>
+    <main>
+        <menu>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Strona główna</a></li>
+                    <li><a href="../git.html">Repozytorium git</a></li>
+                    <li><a href="../techniki.html">Techniki zwinne</a></li>
+                    <li><a class="active-link" href="../wzorce.html">Wzorce projektowe</a></li>
+                </ul>
+            </nav>
+        </menu>
+        <article>
+            <section>
+                <h1 class="title">Polecenie</h1>
+                <p>
+                    <b>Znany też jako</b>: Action, Transaction, Command
+                </p>
+            </section>
+            <section>
+                <h1>Cel</h1>
+                <p>
+                    <b>Polecenie</b> jest behawioralnym wzorcem projektowym który zmienia żądanie w samodzielny obiekt zawierający wszystkie informacje o tym żądaniu. Taka transformacja pozwala na parametryzowanie metod przy użyciu różnych żądań. Oprócz tego umożliwia opóźnianie lub kolejkowanie wykonywania żądań oraz pozwala na cofanie operacji.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/command/command-pl.png">
+                </div>
+            </section>
+            <section>
+                <h1>Problem</h1>
+                <p>
+                    Wyobraź sobie, że pracujesz nad nowym edytorem tekstu. Tworzysz pasek narzędziowy z przyciskami wywołującymi różne działania edytora. Masz już elegancką klasę <code>Przycisk</code> która może być używana zarówno do przycisków paska, a także jako ogólne przyciski w różnych oknach dialogowych.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/problem1.png">
+                    <p>
+                        Wszystkie przyciski w aplikacji wywodzą się z tej samej klasy.
+                    </p>
+                </div>
+                <p>
+                    Mimo, że wszystkie te przyciski wyglądają podobnie, to mają wywoływać różne działania. Gdzie więc umieścić kod obiektów obsługujących kliknięcia przycisków? Najprostszym rozwiązaniem jest stworzenie wielu podklas dla każdego przypadku użycia przycisku. Takie podklasy zawierałyby kod wykonywany po wciśnięciu przycisku.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/problem2.png">
+                    <p>
+                        Mnóstwo podklas przycisku. Co może pójść nie tak?
+                    </p>
+                </div>
+                <p>
+                    Szybko zauważasz, że to podejście jest wadliwe. Powstanie wielka liczba podklas, co byłoby akceptowalne, gdybyśmy przy okazji nie ryzykowali popsucia kodu tych podklas przy każdej zmianie klasy bazowej <code>Przycisk</code>. Kod twojego interfejsu użytkownika byłby zależny od zmiennego kodu logiki biznesowej.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/problem3-pl.png">
+                    <p>
+                        Wiele klas implementuje tę samą funkcjonalność.
+                    </p>
+                </div>
+                <p>
+                    Ale to jeszcze nie wszystko. Niektóre operacje, jak kopiowanie/wklejanie tekstu, powinny być dostępne z wielu miejsc: po kliknięciu na mały przycisk “Kopiuj” na pasku narzędziowym, wybraniu z menu kontekstowego, czy też po wciśnięciu skrótu klawiszowego <code>Ctrl+C</code>.
+                </p>
+                <br>
+                <p>
+                    Na początku, gdy nasza aplikacja posiadała tylko pasek narzędziowy, umieszczenie implementacji operacji w podklasach przycisku miało sens. Innymi słowy, trzymanie kodu służącego do kopiowaniu tekstu w obrębie podklasy <code>PrzyciskKopiuj</code> było w porządku. Jednak po zaimplementowaniu menu kontekstowego, skrótów i innych — trzeba duplikować kod operacji w wielu klasach lub uczynić menu zależnymi od przycisków, co jest jeszcze gorszą opcją.
+                </p>
+            </section>
+            <section>
+                <h1>Rozwiązanie</h1>
+                <p>
+                    Dobre projektowanie oprogramowania często bazuje na <b>zasadzie separacji odpowiedzialności</b>, co zwykle skutkuje podziałem aplikacji na warstwy. Najczęstszy przykład: warstwa graficznego interfejsu użytkownika i warstwa logiki biznesowej. Pierwsza jest odpowiedzialna za renderowanie pięknego obrazu na ekranie, przechwytywanie sygnałów na wejściu i wyświetlanie efektów pracy użytkownika i aplikacji. Jednak gdy chodzi o wykonywanie ważnych zadań, jak obliczanie trajektorii księżyca, lub generowanie rocznego bilansu, warstwa interfejsu użytkownika deleguje te zadania warstwie logiki biznesowej.
+                </p>
+                <br>
+                <p>
+                    W kodzie wyglądałoby to na przykład tak: obiekt graficznego interfejsu użytkownika wywołuje metodę obiektu logiki biznesowej, przekazując jej jakieś argumenty. Proces ten zwykle można opisać jako przesłanie <b>żądania</b> przez jeden obiekt drugiemu obiektowi.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/solution1-pl.png">
+                    <p>
+                        Obiekty graficznego interfejsu użytkownika mogą mieć bezpośredni dostęp do obiektów warstwy logiki biznesowej.
+                    </p>
+                </div>
+                <p>
+                    Według wzorca Polecenie, obiekty GUI nie powinny wysyłać żądań bezpośrednio. Zamiast tego należy wyekstrahować szczegóły żądania, takie jak obiekt docelowy, nazwę metody i listę argumentów do osobnej klasy polecenie posiadającej tylko jedną metodę — wywołującą to żądanie.
+                </p>
+                <br>
+                <p>
+                    Obiekty polecenie stanowią łącza pomiędzy obiektami interfejsu użytkownika i logiki biznesowej. Od teraz, obiekt GUI nie musi wiedzieć który obiekt logiki biznesowej otrzyma żądanie i jak je obsłuży. Obiekt interfejsu użytkownika jedynie wywołuje polecenie, a ono samo zajmuje się szczegółami.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/solution2-pl.png">
+                    <p>
+                        Dostęp do warstwy logiki biznesowej za pośrednictwem polecenia.
+                    </p>
+                </div>
+                <p>
+                    Kolejnym etapem jest zaimplementowanie wszystkim poleceniom jednakowego interfejsu. Zazwyczaj posiada on jedną tylko metodę wywołującą działanie, która nie przyjmuje parametrów. Taki interfejs pozwala jednemu nadawcy wywoływać wiele różnych poleceń bez konieczności sprzęgania go z konkretnymi klasami poleceń. Dodatkowo można teraz wymieniać obiekty-polecenia powiązane z nadawcą, a tym samym zmieniać jego zachowanie w trakcie działania programu.
+                </p>
+                <br>
+                <p>
+                    Brakuje jeszcze jednego elementu układanki — parametrów żądania. Obiekt graficznego interfejsu użytkownika mógł dostarczyć obiektowi warstwy logiki biznesowej jakieś parametry. Skoro wykonanie polecenia nie przyjmuje żadnych parametrów, to jak przekazać odbiorcy szczegóły żądania? Otóż albo te dane powinny być wcześniej skonfigurowane w poleceniu, albo polecenie powinno móc pozyskać je samodzielnie.
+                </p>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/diagrams/command/solution3-pl.png">
+                    <p>
+                        Obiekty graficznego interfejsu użytkownika delegują pracę poleceniom.
+                    </p>
+                </div>
+                <p>
+                    Wróćmy do naszego edytora tekstu. Po zastosowaniu wzorca Polecenie, nie potrzebujemy tych wszystkich podklas przycisku, by zaimplementować różne reakcje na kliknięcie. Wystarczy umieścić w klasie bazowej <code>Przycisk</code> jedno pole przechowujące odniesienie do obiektu typu polecenie i sprawić, by kliknięcie powodowało uruchomienie tego polecenia.
+                </p>
+                <br>
+                <p>
+                    Należy zaimplementować kilka klas polecenie dla każdej możliwej operacji i połączyć je z konkretnymi przyciskami, zależnie od planowanej reakcji na wciskanie ich.
+                </p>
+                <br>
+                <p>
+                    Inne elementy GUI, jak menu, skróty czy całe okna dialogowe można zaimplementować w taki sam sposób: powiązać je z poleceniem które będzie uruchamiane w odpowiedzi na interakcję użytkownika z danym elementem. Jak być może się już domyślasz, elementy związane z tymi samymi działaniami będą połączone z tymi samymi poleceniami, zapobiegając tym samym duplikacji kodu.
+                </p>
+                <br>
+                <p>
+                    W rezultacie polecenia stają się poręczną warstwą pośrednią redukującą sprzężenie pomiędzy graficznym elementem użytkownika i warstwami logiki biznesowej. A to tylko część zysków płynących z użycia wzorca Polecenie!
+                </p>
+            </section>
+            <section>
+                <h1>Analogia do prawdziwego życia</h1>
+                <div class="content-image">
+                    <img src="https://refactoring.guru/images/patterns/content/command/command-comic-1.png">
+                    <p>
+                        Składanie zamówienia w restauracji.
+                    </p>
+                </div>
+                <p>
+                    Podczas długiego spaceru po mieście, docierasz do miłej restauracji i siadasz przy oknie. Przyjazny kelner szybko przyjmuje zamówienie, spisując je na małym kawałku papieru. Następnie kelner idzie do kuchni i przykleja kartkę na ścianie. Po jakimś czasie zamówienie dociera do szefa kuchni, który przygotowuje danie, a następnie umieszcza posiłek na tacce wraz z zamówieniem. Kelner znajduje tackę, sprawdza zgodność z zamówieniem i zanosi ją do stolika.
+                </p>
+                <br>
+                <p>
+                    Zamówienie na papierze stanowi polecenie. Trafia do kolejki, do momentu aż szef kuchni je przygotuje. Zamówienie zawiera wszystkie niezbędne informacje wymagane do przygotowania posiłku. Umożliwia to kucharzowi rozpoczęcie gotowania od razu, zamiast ustalać szczegóły z klientem na własną rękę.
+                </p>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <p>Projektant: Cyprian Moczała</p>
+    </footer>
+    <a id="to-top" href="#baner">
+        <svg class="ast-arrow-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="26px" height="16.043px" viewBox="57 35.171 26 16.043" enable-background="new 57 35.171 26 16.043" xml:space="preserve">
+            <path d="M57.5,38.193l12.5,12.5l12.5-12.5l-2.5-2.5l-10,10l-10-10L57.5,38.193z"></path>
+        </svg>
+    </a>
+</body>
+</html>
