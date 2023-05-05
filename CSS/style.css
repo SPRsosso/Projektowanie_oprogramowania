@@ -200,22 +200,6 @@ small {
     text-decoration: underline;
 }
 
-.content-image {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin: 20px 0;
-}
-
-.content-image p {
-    font-size: 15px;
-    color: var(--font-color-img);
-    width: 70%;
-    text-align: center;
-}
-
 #wzorce-kreacyjne {
     margin: 10px 0;
     display: grid;
@@ -241,6 +225,17 @@ small {
 
 #to-top:hover {
     background-color: var(--accent-color-hover);
+}
+
+.imgs {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgs img {
+    width: 70%;
 }
 
 
@@ -320,6 +315,22 @@ code {
     box-shadow: 0 1px 0 var(--font-color-code);
 }
 
+.content-image {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px 0;
+}
+
+.content-image p {
+    font-size: 15px;
+    color: var(--font-color-img);
+    width: 70%;
+    text-align: center;
+}
+
 /* Other screen sizes section (@media) */
 @media (max-width: 1180px) {
     section {
@@ -396,6 +407,10 @@ code {
     }
 
     .content-image img {
+        width: 100%;
+    }
+
+    .imgs img {
         width: 100%;
     }
 }
